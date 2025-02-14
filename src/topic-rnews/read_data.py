@@ -16,7 +16,7 @@ def merge_data(data_path: Path, paths: List[str]) -> np.ndarray:
     return np.vstack(page_list)
 
 
-def main(args: argparse.Namespace) -> None:
+def create_dataframe(args: argparse.Namespace) -> pd.DataFrame:
     """
     Load xml files and assemble page lists before saving them.
     """
@@ -28,6 +28,7 @@ def main(args: argparse.Namespace) -> None:
 
     data = merge_data(data_path, paths)
     df = pd.DataFrame(data, columns=["path", "region", "class", "confidence", "text"])
+    return df
 
 
 def get_args() -> argparse.Namespace:
@@ -43,6 +44,3 @@ def get_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-if __name__ == "__main__":
-    parameter_args = get_args()
-    main(parameter_args)
