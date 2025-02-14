@@ -1,7 +1,8 @@
-from setuptools import setup
+# -*- coding: utf-8 -*-
 
-setup(
-    name='Read numpy newspaper data',
-    version='1.0',
-    scripts=['read_data.py'],
-)
+"""Setup module."""
+
+import setuptools
+
+if __name__ == "__main__":
+    setuptools.setup()
