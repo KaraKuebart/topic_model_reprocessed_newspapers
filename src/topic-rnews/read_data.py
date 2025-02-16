@@ -42,5 +42,3 @@ def get_args() -> argparse.Namespace:
         help="path for data folder",
     )
     return parser.parse_args()
-
-
