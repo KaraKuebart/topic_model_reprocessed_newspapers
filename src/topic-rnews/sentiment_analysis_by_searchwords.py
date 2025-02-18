@@ -7,7 +7,7 @@ lexicon = pd.read_csv("sentiment_lexicon.csv", sep=";")
 
 analysis_word = ""
 
-range_ =
+range_ = 20
 
 lexicon['words'] = lexicon['words'].astype(str)
 
@@ -45,7 +45,8 @@ for i in tqdm(dataset.index):
                 for m in range(len(sf)):
                     n_of_countable_words = n_of_countable_words + 1
                     article_sentiment = article_sentiment + lexicon.loc[sf[m]].at['value']
-                    found_words.append(lexicon.loc[sf[m]].at['words'])
+                    found_word = lexicon.loc[sf[m]].at['words']
+                    found_words.append(found_word)
 
                     break
         else:

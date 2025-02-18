@@ -1,7 +1,7 @@
 import pandas as pd
 from leet_topic import leet_topic
 
-df = pd.read_csv('bonn_newspaper_1866_pre.csv', sep=';')
+df = pd.read_csv('test_batch_leet_2nd_sorted.csv', sep=';')
 
 leet_df, topic_data = leet_topic.LeetTopic(df,
                                            document_field="text",
@@ -10,4 +10,4 @@ leet_df, topic_data = leet_topic.LeetTopic(df,
                                            spacy_model="de_core_news_sm",
                                            max_distance=.5)
 
-leet_df.to_csv('bonn_newspaper_1866_leet2.csv', sep=';')
+leet_df.to_csv('test_batch_leet_3rd.csv', sep=';')
