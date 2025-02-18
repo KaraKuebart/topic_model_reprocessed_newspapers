@@ -1,16 +1,13 @@
 import pandas as pd
-from pandas import DataFrame
-from tqdm import tqdm
 
-def get_processing_docs(consolidations_path:str='../resources/consolidations.csv', lemmas_path:str='../resources/lemmas.csv', stopwords_path:str='../resources/stopwords.csv') -> \
-tuple[DataFrame, DataFrame, DataFrame]:
-    consolidations = pd.read_csv(consolidations_path, sep=";", dtype="string")
-    lemmas = pd.read_csv(lemmas_path, sep=";", dtype="string")
-    stopwords = pd.read_csv(stopwords_path, sep=";", dtype="string")
-    return consolidations, lemmas, stopwords
+from tqdm import tqdm
+from resources.pythonic_resources import stopwords, consolidations, lemmata
+
+def remove_punctuation(text):
+    return text.translate(str.maketrans('', '', string.punctuation))
 
 def preprocess(dataset:pd.DataFrame) -> pd.DataFrame:
-    consolidations, lemmas, stopwords = get_processing_docs()
+
     dataset['text'] = dataset['text'].str.lower()
 
     for i in tqdm(consolidations.index):
@@ -18,17 +15,21 @@ def preprocess(dataset:pd.DataFrame) -> pd.DataFrame:
                                   value=consolidations.loc[i].at["replace"],
                                   regex=True)
 
-    for j in tqdm(lemmas.index):
-        dataset = dataset.replace(to_replace=" {} ".format(lemmas.loc[j].at["word"]),
-                                  value=" {} ".format(lemmas.loc[j].at["replace"]), regex=True)
+    for j in tqdm(lemmata.index):
+        dataset = dataset.replace(to_replace=" {} ".format(lemmata.loc[j].at["word"]),
+                                  value=" {} ".format(lemmata.loc[j].at["replace"]), regex=True)
 
-    for k in tqdm(stopwords.index):
-        dataset = dataset.replace(to_replace=" {} ".format(stopwords.loc[k].at["stopwords"]), value=" ", regex=True)
+    for k in tqdm(stopwords):
+        dataset = dataset.replace(to_replace=f" {k} ", value=" ", regex=True)
 
-    punctuation = ''', : ; - _ # ' ~ ` ´ = / & % $ § " ! ° ^ < > | '''
-    punctuation = punctuation.split(' ')
-    for sign in punctuation:
-        dataset['text'] = dataset['text'].str.replace('{}'.format(sign), '', regex=True)
+    # ToDo make sure the new punctuation removal does what it should
+    dataset['text'] = dataset['text'].apply(remove_punctuation)
+
+    # old punctuation method:
+    # punctuation = ''', : ; - _ # ' ~ ` ´ = / & % $ § " ! ° ^ < > | '''
+    # punctuation = punctuation.split(' ')
+    # for sign in punctuation:
+    #     dataset['text'] = dataset['text'].str.replace('{}'.format(sign), '', regex=True)
 
     return dataset
 

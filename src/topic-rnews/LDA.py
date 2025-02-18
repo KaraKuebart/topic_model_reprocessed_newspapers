@@ -14,11 +14,6 @@ nltk.download('stopwords')
 import spacy
 spacy.cli.download("de_core_news_sm")
 
-stopwords = nltk.corpus.stopwords.words("german")
-stopwords.extend(['auch', 'nur', 'noch'])
-for stopword in stopwords:
-    if f' {stopword} ' in text:
-        text = text.replace(f' {stopword} ', ' ')
 
 def lemmatization(texts_in, allowed_postags=None):
     if allowed_postags is None:
