@@ -1,3 +1,5 @@
+import string
+
 import pandas as pd
 
 from tqdm import tqdm
@@ -6,7 +8,7 @@ from resources.pythonic_resources import stopwords, consolidations, lemmata
 def remove_punctuation(text):
     return text.translate(str.maketrans('', '', string.punctuation))
 
-def preprocess(dataset:pd.DataFrame) -> pd.DataFrame:
+def main(dataset:pd.DataFrame) -> pd.DataFrame:
 
     dataset['text'] = dataset['text'].str.lower()
 
