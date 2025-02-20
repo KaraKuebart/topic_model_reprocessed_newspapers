@@ -165,7 +165,7 @@ def reduce_corpus(corpus, id2word, tfidf):
 
     return corpus
 
- # TODO test leet_topic
+
 def run_leet_topic(dataframe: pd.DataFrame, max_distance: float=0.5) -> pd.DataFrame:
     new_df, topic_data = leet_topic.LeetTopic(dataframe,
                                                document_field="text",

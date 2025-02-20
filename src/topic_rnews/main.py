@@ -1,16 +1,18 @@
+import pandas as pd
+
 import read_data
 import preprocessing
+import sentiment_analysis
 from topic_model import run_lda, run_leet_topic
 
 
 if __name__ == "__main__":
     # import data from numpy arrays
     args = read_data.get_args()
-
     news_df = read_data.create_dataframe(args)
 
     # Sorting the df by date and reading order (has no effect - index not changed)
-    # news_df.sort_values(by=['path', 'region'], inplace=True)
+    news_df.sort_values(by=['path', 'region'], inplace=True)
 
     # add headings and corresponding paragraphs together (if confidence is high).
     for i in news_df.index:
@@ -29,16 +31,31 @@ if __name__ == "__main__":
         # stopword removal,
         # punctuation removal:
     news_df = preprocessing.main(news_df)
+    # ToDo: fix indexing problem (leet topic needs new indices which flow continuously,
+    #  while LDA would work, but save topic data under wrong indices.)
 
 
-    # analysis
+
+
+    # ANALYSIS
+
+    # sentiment analysis
+    news_df = sentiment_analysis.per_article(news_df)
+
+    words_of_interest = ['estland', 'lettland', 'litauen', 'finnland', 'england', 'schweden', 'norwegen', 'daenemark', 'frankreich']
+    range_tuple = (0, 25)
+    news_df = sentiment_analysis.by_words(news_df, words_of_interest, range_tuple)
+
+    # topic modelling
     news_df = run_lda(news_df, args.lda_numtopics)
     news_df.to_csv('test_lda.csv', sep=';', index=False)
 
 
+
+    news_df = pd.read_csv('test_lda.csv', sep=';')
     print("finished LDA, starting leet topic model")
     news_df = run_leet_topic(news_df, args.leet_distance)
 
 
     # export results
-    news_df.to_csv('temp.csv', sep=';', index=False)
+    news_df.to_csv('test_leet.csv', sep=';', index=False)
