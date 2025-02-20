@@ -28,7 +28,8 @@ if __name__ == "__main__":
     print('before_reduction:', len(news_df))
 
     for i in tqdm(news_df.index):
-        if type(news_df.loc[i, "text"]) != str or len(news_df.loc[i, "text"]) < 50:
+        text = news_df.loc[i]['text']
+        if not isinstance(text, str) or len(text) < 50:
             news_df.drop(i, inplace=True)
     print('after reduction:', len(news_df))
 
