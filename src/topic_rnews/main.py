@@ -31,9 +31,7 @@ if __name__ == "__main__":
         # stopword removal,
         # punctuation removal:
     news_df = preprocessing.main(news_df)
-    # ToDo: fix indexing problem (leet topic needs new indices which flow continuously,
-    #  while LDA would work, but save topic data under wrong indices.)
-
+    news_df.reset_index(drop=True, inplace=True)
 
 
 
@@ -48,14 +46,9 @@ if __name__ == "__main__":
 
     # topic modelling
     news_df = run_lda(news_df, args.lda_numtopics)
-    news_df.to_csv('test_lda.csv', sep=';', index=False)
-
-
-
-    news_df = pd.read_csv('test_lda.csv', sep=';')
     print("finished LDA, starting leet topic model")
     news_df = run_leet_topic(news_df, args.leet_distance)
 
 
     # export results
-    news_df.to_csv('test_leet.csv', sep=';', index=False)
+    news_df.to_csv('test_all.csv', sep=';', index=False)

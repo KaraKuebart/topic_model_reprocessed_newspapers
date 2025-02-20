@@ -1,11 +1,12 @@
 import pandas as pd
 from tqdm import tqdm
 
-lexicon = pd.read_csv("sentiment_lexicon.csv", sep=";")
+lexicon = pd.read_csv("resources/sentiment_lexicon.csv", sep=";")
 lexicon['words'] = lexicon['words'].astype(str)
 
 
 def per_article(dataset: pd.DataFrame):
+    print('calculating sentiment scores per article')
     for i in tqdm(dataset.index):
         article = dataset.loc[i].at["text"]
 
@@ -31,6 +32,7 @@ def per_article(dataset: pd.DataFrame):
 
 
 def by_words(dataset: pd.DataFrame, analysis_words:list, analysis_range:tuple=(0, 30)) -> pd.DataFrame:
+    print('calculating sentiment scores by words')
     for i in tqdm(dataset.index):
         article = str(dataset.loc[i].at["text"])
 
