@@ -6,14 +6,11 @@ import gensim
 import gensim.corpora as corpora
 from gensim.models import TfidfModel
 
-# nltk
-import nltk
-nltk.download('stopwords')
-
 # spacy
 import spacy
 spacy.cli.download("de_core_news_sm")
 
+from leet_topic import leet_topic
 
 def lemmatization(texts_in, allowed_postags=None):
     if allowed_postags is None:
@@ -57,7 +54,7 @@ def find_topics(ldamodel, topic):
     return keywords, topic_num, topic_percentage
 
 
-def run_lda(data:pd.DataFrame) -> pd.DataFrame:
+def run_lda(data:pd.DataFrame, num_topics:int=50) -> pd.DataFrame:
 
 
     text_data = data['text'].tolist()
@@ -82,7 +79,7 @@ def run_lda(data:pd.DataFrame) -> pd.DataFrame:
 
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus[:-1],
                                                 id2word=id2word,
-                                                num_topics=40,  # enter number of topics here
+                                                num_topics=num_topics,  # enter number of topics here
                                                 random_state=42,
                                                 update_every=1,
                                                 chunksize=2000,
@@ -165,6 +162,17 @@ def reduce_corpus(corpus, id2word, tfidf):
         corpus[i] = new_bow
 
     return corpus
+
+ # TODO test leet_topic
+def run_leet_topic(dataframe: pd.DataFrame, max_distance: float=0.5) -> pd.DataFrame:
+    new_df, topic_data = leet_topic.LeetTopic(dataframe,
+                                               document_field="text",
+                                               html_filename=f"newspaper_leet_topic_{max_distance}.html",
+                                               extra_fields=["hdbscan_labels"],
+                                               spacy_model="de_core_news_sm",
+                                               max_distance=max_distance)
+    return new_df
+
 
 
 if __name__ == "__main__":

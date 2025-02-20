@@ -1,7 +1,10 @@
 ﻿letters;replace
-é,è,ê;e
+é;e
+è;e
+ê;e
 ß;ss
-ä,å;ae
+ä;ae
+å;ae
 ö;oe
 ü;ue
 ô;o

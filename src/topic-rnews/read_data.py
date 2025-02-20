@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 def merge_data(data_path: Path, paths: List[str]) -> np.ndarray:
     page_list = []
-    for path in tqdm(paths[:200]):
+    for path in tqdm(paths[:800]):
         page_csv = np.load(data_path / f"{path}.npz")['array']
         page_list.append(page_csv)
     return np.vstack(page_list)
@@ -48,5 +48,19 @@ def get_args() -> argparse.Namespace:
         type=str,
         default="original_dataframe.csv",
         help="saving path for the original dataframe without edits",
+    )
+    parser.add_argument(
+        "--lda-numtopics",
+        "-lda",
+        type=int,
+        default=50,
+        help="number of topics for LDA",
+    )
+    parser.add_argument(
+        "--leet-distance",
+        "-leet",
+        type=float,
+        default=0.5,
+        help="maximum allowed distance between document and topic for leet topic model",
     )
     return parser.parse_args()

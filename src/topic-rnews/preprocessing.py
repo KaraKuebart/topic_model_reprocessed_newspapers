@@ -13,8 +13,8 @@ def main(dataset:pd.DataFrame) -> pd.DataFrame:
     dataset['text'] = dataset['text'].str.lower()
 
     for i in tqdm(consolidations.index):
-        dataset = dataset.replace(to_replace=consolidations.loc[i].at["letters"],
-                                  value=consolidations.loc[i].at["replace"],
+        dataset = dataset.replace(to_replace=consolidations.loc[i, "letters"],
+                                  value=consolidations.loc[i, "replace"],
                                   regex=True)
 
     for j in tqdm(lemmata.index):
