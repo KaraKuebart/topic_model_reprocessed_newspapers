@@ -1,0 +1,74 @@
+import pandas as pd
+from tqdm import tqdm
+
+lexicon = pd.read_csv("sentiment_lexicon.csv", sep=";")
+lexicon['words'] = lexicon['words'].astype(str)
+
+
+def by_words(dataset: pd.DataFrame, analysis_words:list, analysis_range:tuple=(0, 30)) -> pd.DataFrame:
+    for i in tqdm(dataset.index):
+        article = str(dataset.loc[i].at["text"])
+
+        # convert article to list
+        article = article.split(" ")
+
+        # set starting values for word-counts and sentiment
+        article_sentiments = {}
+        found_analysis_words = {}
+        n_of_countable_words = {}
+        found_words = {}
+        for word in analysis_words:
+            found_analysis_words[word] = 0
+            article_sentiments[word] = 0
+            n_of_countable_words[word] = 0
+            found_words[word] = []
+
+        # search for the analysis_word in the list
+        for j in range(len(article)):
+            if article[j] in analysis_words:
+                current_word = article[j]
+                found_analysis_words[current_word] += 1
+
+                # make a list of all words in the range, and put it in a String with | separator
+                range_list = []
+                for k in range((j - analysis_range[0]), (j + analysis_range[1] + 1)):
+                    if k >= (len(article)):
+                        break
+                    if k < 0:
+                        continue
+                    else:
+                        range_list.append(article[k])
+                        # compare your rangelist to the lexicon
+                for k in range(len(range_list)):
+                    sf = lexicon.index[lexicon['words'] == range_list[k]]
+
+                    for m in range(len(sf)):
+                        n_of_countable_words[current_word] += 1
+                        article_sentiments[current_word] += lexicon.loc[sf[m]].at['value']
+                        found_words[current_word].append(lexicon.loc[sf[m]].at['words'])
+
+                        break
+            else:
+                continue
+        for word in analysis_words:
+            dataset.at[i, 'article_sentiment'] = article_sentiments[word]
+            dataset.at[i, 'n_of_analysis_word'] = found_analysis_words[word]
+            dataset.at[i, 'n_of_lexicon_words'] = n_of_countable_words[word]
+            dataset.at[i, 'lexicon_words'] = ' '.join(found_words[word])
+    return dataset
+
+
+if __name__ == "__main__":
+    my_df = pd.read_csv("*.csv", sep=";")
+
+    wordlist = [""]
+
+    range_ = (20, 20)
+
+
+
+    # use a for - loop to go through all articles
+    my_df = by_words(my_df, range_, wordlist)
+
+    # save datasheet to csv
+    my_df.to_csv('*.csv', sep=';')
