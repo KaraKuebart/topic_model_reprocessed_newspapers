@@ -9,11 +9,11 @@ from tqdm import tqdm
 
 
 def merge_data(data_path: Path, paths: List[str]) -> np.ndarray:
-    page_list = []
-    for path in tqdm(paths):
+    page_ndarray = np.load(data_path / f"{paths[0]}.npz")['array']
+    for path in tqdm(paths[1:]):
         page_csv = np.load(data_path / f"{path}.npz")['array']
-        page_list.append(page_csv)
-    return np.vstack(page_list)
+        page_ndarray = np.vstack([page_ndarray, page_csv])
+    return page_ndarray
 
 
 def create_dataframe(args: argparse.Namespace) -> pd.DataFrame:
