@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 def merge_data(data_path: Path, paths: List[str]) -> np.ndarray:
     page_list = []
-    for path in tqdm(paths[:200]):
+    for path in tqdm(paths):
         page_csv = np.load(data_path / f"{path}.npz")['array']
         page_list.append(page_csv)
     return np.vstack(page_list)
