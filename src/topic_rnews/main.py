@@ -1,5 +1,3 @@
-import pandas as pd
-
 import read_data
 import preprocessing
 import sentiment_analysis
