@@ -46,7 +46,7 @@ def get_args() -> argparse.Namespace:
         "--original-dataframe",
         "-od",
         type=str,
-        default="original_dataframe.csv",
+        default="output/original_dataframe.csv",
         help="saving path for the original dataframe without edits",
     )
     parser.add_argument(

@@ -3,7 +3,7 @@ import pandas as pd
 
 #Gensim
 import gensim
-import gensim.corpora as corpora
+from gensim import corpora
 from gensim.models import TfidfModel
 
 # spacy
@@ -11,8 +11,6 @@ import spacy
 # spacy.cli.download("de_core_news_sm")
 
 from leet_topic import leet_topic
-
-from src.topic_rnews import preprocessing
 
 def lemmatization(texts_in, allowed_postags=None):
     if allowed_postags is None:
@@ -45,7 +43,7 @@ def make_bigrams_trigrams(texts_in):
     trigram = gensim.models.phrases.Phraser(trigram_phrases)
     bigrams_out = [bigram[doc] for doc in texts_in]
     trigrams_out = [trigram[bigram[doc]] for doc in bigrams_out]
-    return bigrams_out, trigrams_out
+    return trigrams_out
 
 
 def find_topics(ldamodel, topic):
@@ -66,7 +64,7 @@ def run_lda(data:pd.DataFrame, num_topics:int=50) -> pd.DataFrame:
     data_words = gen_words(lemmatized_texts)
 
     # BIGRAMS AND TRIGRAMS
-    data_bigrams, data_bigrams_trigrams = make_bigrams_trigrams(data_words)
+    data_bigrams_trigrams = make_bigrams_trigrams(data_words)
 
     # TF-IDF REMOVAL
     id2word = corpora.Dictionary(data_bigrams_trigrams)
@@ -151,14 +149,15 @@ def reduce_corpus(corpus, id2word, tfidf):
     for i in tqdm(range(0, len(corpus))):
         bow = corpus[i]
         # low_value_words = [] #reinitialize to be safe. You can skip this.
-        tfidf_ids = [id for id, value in tfidf[bow]]
-        bow_ids = [id for id, value in bow]
-        low_value_words = [id for id, value in tfidf[bow] if value < low_value]
+        tfidf_ids = [i for i, value in tfidf[bow]]
+        bow_ids = [i for i, value in bow]
+        low_value_words = [i for i, value in tfidf[bow] if value < low_value]
         drops = low_value_words + words_missing_in_tfidf
         for item in drops:
             words.append(id2word[item])
-        words_missing_in_tfidf = [id for id in bow_ids if
-                                  id not in tfidf_ids]  # The words with tf-idf socre 0 will be missing
+        words_missing_in_tfidf = [i for i in bow_ids if
+                                  i not in tfidf_ids]
+        # The words with tf-idf score 0 will be missing
 
         new_bow = [b for b in bow if b[0] not in drops]
         corpus[i] = new_bow
@@ -169,27 +168,8 @@ def reduce_corpus(corpus, id2word, tfidf):
 def run_leet_topic(dataframe: pd.DataFrame, max_distance: float=0.5) -> pd.DataFrame:
     new_df, topic_data = leet_topic.LeetTopic(dataframe,
                                                document_field="text",
-                                               html_filename=f"newspaper_leet_topic_{max_distance}.html",
+                                               html_filename=f"output/newspaper_leet_topic_{max_distance}.html",
                                                extra_fields=["hdbscan_labels"],
                                                spacy_model="de_core_news_sm",
                                                max_distance=max_distance)
     return new_df
-
-
-
-if __name__ == "__main__":
-    import read_data
-
-    news_df = read_data.create_dataframe(read_data.get_args())
-    news_df = news_df.head(600)
-    news_df = preprocessing.drop_short_lines(news_df)
-    test_df = news_df.head(200)
-    test_df.to_csv("test/test_df.csv", sep=';', index=False)
-    # news_df = run_lda(news_df)
-    # news_df.to_csv('test_lda.csv', sep=';', index=False)
-
-    # pyLDAvis.enable_notebook()
-    # vis = pyLDAvis.gensim_models.prepare(lda_model, corpus, id2word, mds="mmds", R=30)
-    #
-    #
-    # pyLDAvis.save_html(vis, '*.html') # define export name
