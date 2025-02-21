@@ -18,9 +18,9 @@ def per_article(dataset: pd.DataFrame):
         n_of_countable_words = 0
 
         # compare article to lexicon
-        for j in enumerate(article):
-            sf = lexicon.index[lexicon['words'] == article[j]]
-            for m in enumerate(sf):
+        for word in article:
+            sf = lexicon.index[lexicon['words'] == word]
+            for m in range(len(sf)):
                 n_of_countable_words = n_of_countable_words + 1
                 article_sentiment = article_sentiment + lexicon.loc[sf[m]].at['value']
                 break
@@ -51,7 +51,7 @@ def by_words(dataset: pd.DataFrame, analysis_words:list, analysis_range:tuple=(0
             found_words[word] = []
 
         # search for the analysis_word in the list
-        for j in enumerate(article):
+        for j in range(len(article)):
             if article[j] in analysis_words:
                 current_word = article[j]
                 found_analysis_words[current_word] += 1
@@ -65,10 +65,10 @@ def by_words(dataset: pd.DataFrame, analysis_words:list, analysis_range:tuple=(0
                         continue
                     range_list.append(article[k])
                         # compare your rangelist to the lexicon
-                for k in enumerate(range_list):
+                for k in range(len(range_list)):
                     sf = lexicon.index[lexicon['words'] == range_list[k]]
 
-                    for m in enumerate(sf):
+                    for m in range(len(sf)):
                         n_of_countable_words[current_word] += 1
                         article_sentiments[current_word] += lexicon.loc[sf[m]].at['value']
                         found_words[current_word].append(lexicon.loc[sf[m]].at['words'])
