@@ -29,8 +29,8 @@ def main(dataset:pd.DataFrame) -> pd.DataFrame:
 
     print('applying lemmata')
     for j in tqdm(lemmata.index):
-        dataset = dataset.replace(to_replace=f" {lemmata.loc[j].at["word"]} ",
-                                  value=f" {lemmata.loc[j].at["replace"]} ", regex=True)
+        dataset = dataset.replace(to_replace=f""" {lemmata.loc[j].at["word"]} """,
+                                  value=f""" {lemmata.loc[j].at["replace"]} """, regex=True)
 
     print('applying stopwords')
     for k in tqdm(stopwords):
