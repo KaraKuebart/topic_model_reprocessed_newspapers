@@ -9,6 +9,7 @@ from tqdm import tqdm
 
 
 def merge_data(data_path: Path, paths: List[str]) -> np.ndarray:
+    assert len(paths) > 1, "No files found!"
     page_ndarray = np.load(data_path / f"{paths[0]}.npz")['array']
     for path in tqdm(paths[1:]):
         page_csv = np.load(data_path / f"{path}.npz")['array']
@@ -64,3 +65,6 @@ def get_args() -> argparse.Namespace:
         help="maximum allowed distance between document and topic for leet topic model",
     )
     return parser.parse_args()
+
+if __name__ == "__main__":
+    create_dataframe(get_args())
