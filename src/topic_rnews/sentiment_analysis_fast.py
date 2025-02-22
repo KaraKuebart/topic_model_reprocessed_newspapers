@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 import time
 
 lexicon = pd.read_csv("resources/sentiment_lexicon.csv", sep=";")
@@ -30,12 +31,12 @@ def split_results(dataframe:pd.DataFrame) -> pd.DataFrame:
 
 def per_article(local_df: pd.DataFrame):
     a = time.time()
-    print(a, ': calculating sentiment scores per article')
+    print(datetime.datetime.now(), ': calculating sentiment scores per article')
     local_df['mixed_results'] = local_df['text'].p_apply(article_row)
     local_df = split_results(local_df)
     b = time.time()
-    print(b, f': calculating sentiment scores per article took {b-a} seconds')
-    # dataset.drop(columns=['mixed_results'], inplace=True)
+    print(datetime.datetime.now(), f': calculating sentiment scores per article took {b-a} seconds')
+    local_df.drop(columns=['mixed_results'], inplace=True)
     return local_df
 
 
@@ -93,8 +94,8 @@ def words_row(row: pd.Series, analysis_words:list, analysis_range:tuple=(0, 30))
 
 def by_words(dataset: pd.DataFrame, analysis_words:list, analysis_range:tuple=(0, 30)) -> pd.DataFrame:
     a = time.time()
-    print(a, ': calculating sentiment scores by words')
-    dataset = dataset.p_apply(words_row, axis=1, result_type='broadcast' , args=(analysis_words, analysis_range))
+    print(datetime.datetime.now(), ': calculating sentiment scores by words')
+    dataset = dataset.p_apply(words_row, axis=1, args=(analysis_words, analysis_range))
     b = time.time()
-    print(b, f': calculating sentiment scores by words took {b-a} seconds')
+    print(datetime.datetime.now(), f': calculating sentiment scores by words took {b-a} seconds')
     return dataset
