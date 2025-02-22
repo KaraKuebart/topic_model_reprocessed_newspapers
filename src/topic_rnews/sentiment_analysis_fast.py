@@ -1,5 +1,4 @@
 import pandas as pd
-from tqdm import tqdm
 import time
 
 lexicon = pd.read_csv("resources/sentiment_lexicon.csv", sep=";")
@@ -29,15 +28,15 @@ def split_results(dataframe:pd.DataFrame) -> pd.DataFrame:
     dataframe['n_of_countable_words'] = dataframe['mixed_results'].str[1]
     return dataframe
 
-def per_article(dataset: pd.DataFrame):
-    print('calculating sentiment scores per article')
+def per_article(local_df: pd.DataFrame):
     a = time.time()
-    dataset['mixed_results'] = dataset['text'].apply(article_row)
-    dataset = split_results(dataset)
+    print(a, ': calculating sentiment scores per article')
+    local_df['mixed_results'] = local_df['text'].p_apply(article_row)
+    local_df = split_results(local_df)
     b = time.time()
-    print(f'calculating sentiment scores per article took {b-a} seconds')
+    print(b, f': calculating sentiment scores per article took {b-a} seconds')
     # dataset.drop(columns=['mixed_results'], inplace=True)
-    return dataset
+    return local_df
 
 
 
@@ -93,9 +92,9 @@ def words_row(row: pd.Series, analysis_words:list, analysis_range:tuple=(0, 30))
 
 
 def by_words(dataset: pd.DataFrame, analysis_words:list, analysis_range:tuple=(0, 30)) -> pd.DataFrame:
-    print('calculating sentiment scores by words')
     a = time.time()
-    dataset = dataset.apply(words_row, analysis_words=analysis_words, analysis_range=analysis_range)
+    print(a, ': calculating sentiment scores by words')
+    dataset = dataset.p_apply(words_row, axis=1, result_type='broadcast' , args=(analysis_words, analysis_range))
     b = time.time()
-    print(f'calculating sentiment scores by words took {b-a} seconds')
+    print(b, f': calculating sentiment scores by words took {b-a} seconds')
     return dataset

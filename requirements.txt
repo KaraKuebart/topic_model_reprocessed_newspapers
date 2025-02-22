@@ -16,3 +16,4 @@ tf-keras
 leet_topic
 tqdm
 nltk
+parallel_pandas

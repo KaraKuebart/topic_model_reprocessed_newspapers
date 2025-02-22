@@ -3,11 +3,17 @@ import preprocessing
 import sentiment_analysis
 from topic_model import run_lda, run_leet_topic
 from tqdm import tqdm
+from parallel_pandas import ParallelPandas
+import time
 
 if __name__ == "__main__":
+    # initialize parallel pandas
+    ParallelPandas.initialize(n_cpu=384, split_factor=4, show_vmem=True)
     # import data from numpy arrays
+    print(time.time(), 'beginning')
     args = read_data.get_args()
     news_df = read_data.create_dataframe(args)
+    print(time.time(), f'dataframe created (size:{len(news_df.index)}), joining headings and paragraphs:')
 
     # add headings and corresponding paragraphs together (if confidence is high).
     for i in tqdm(news_df.index):
@@ -16,6 +22,7 @@ if __name__ == "__main__":
             news_df.loc[i]['confidence'] = (news_df.loc[i]['confidence'] + news_df.loc[i+1]['confidence']) / 2.0
             news_df.loc[i]['text'] = str(news_df.loc[i]['text']) + ' ' + str(news_df.loc[i+1]['text'])
             news_df.drop(news_df.loc[i+1], inplace=True)
+    print(time.time(), 'headings and paragraphs joined')
 
     # drop unuseful data
     news_df = preprocessing.drop_short_lines(news_df)
