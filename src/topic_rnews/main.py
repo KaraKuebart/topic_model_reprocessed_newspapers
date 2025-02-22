@@ -16,7 +16,8 @@ if __name__ == "__main__":
     print(datetime.datetime.now(), f'dataframe created (size:{len(news_df.index)}), joining headings and paragraphs:')
 
     # add headings and corresponding paragraphs together (if confidence is high).
-    for i in tqdm(news_df.index):
+    indices = news_df.index
+    for i in tqdm(indices[:-2]):
         if news_df.loc[i]['class'] == 'heading' and news_df.loc[i+1]['class'] == 'paragraph' and float(news_df.loc[i]['confidence']) > 0.5 and float(news_df.loc[i+1]['confidence']) > 0.5 and news_df.loc[i]['region'] == int(news_df.loc[i+1]['region']) - 1:
             news_df.loc[i]['class'] = 'joined'
             news_df.loc[i]['confidence'] = (news_df.loc[i]['confidence'] + news_df.loc[i+1]['confidence']) / 2.0
