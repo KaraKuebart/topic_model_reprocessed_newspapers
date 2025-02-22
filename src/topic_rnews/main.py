@@ -2,18 +2,15 @@ import read_data
 import preprocessing
 import sentiment_analysis
 from topic_model import run_lda, run_leet_topic
-
+from tqdm import tqdm
 
 if __name__ == "__main__":
     # import data from numpy arrays
     args = read_data.get_args()
     news_df = read_data.create_dataframe(args)
 
-    # Sorting the df by date and reading order (has no effect - index not changed)
-    news_df.sort_values(by=['path', 'region'], inplace=True)
-
     # add headings and corresponding paragraphs together (if confidence is high).
-    for i in news_df.index:
+    for i in tqdm(news_df.index):
         if news_df.loc[i]['class'] == 'heading' and news_df.loc[i+1]['class'] == 'paragraph' and float(news_df.loc[i]['confidence']) > 0.5 and float(news_df.loc[i+1]['confidence']) > 0.5 and news_df.loc[i]['region'] == int(news_df.loc[i+1]['region']) - 1:
             news_df.loc[i]['class'] = 'joined'
             news_df.loc[i]['confidence'] = (news_df.loc[i]['confidence'] + news_df.loc[i+1]['confidence']) / 2.0
@@ -30,7 +27,6 @@ if __name__ == "__main__":
         # punctuation removal:
     news_df = preprocessing.main(news_df)
     news_df.reset_index(drop=True, inplace=True)
-
 
 
     # ANALYSIS
