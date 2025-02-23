@@ -1,4 +1,6 @@
 import string
+import time
+
 import pandas as pd
 import datetime
 from tqdm import tqdm
@@ -21,8 +23,11 @@ def main(dataset:pd.DataFrame) -> pd.DataFrame:
     dataset = dataset.p_replace(to_replace="-\n", value="", regex=True)
     dataset = dataset.p_replace(to_replace="\n", value=" ", regex=True)
 
+
     print(datetime.datetime.now(), ': applying consolidations')
-    dataset = dataset.p_replace(consolidations, regex=True)
+    a = time.time()
+    dataset = dataset.replace(consolidations, regex=True) # works faster in normal pandas than parallel pandas
+    b = time.time()
 
     # for i in tqdm(consolidations.index):
     #    dataset = dataset.p_replace(to_replace=consolidations.loc[i, "letters"],
@@ -30,14 +35,14 @@ def main(dataset:pd.DataFrame) -> pd.DataFrame:
                                   #regex=True)
 
     print(datetime.datetime.now(), ': applying lemmata')
-    dataset = dataset.p_replace(lemmata, regex=True)
+    dataset = dataset.replace(lemmata, regex=True)
 
     #for j in tqdm(lemmata.index):
     #    dataset = dataset.p_replace(to_replace=f""" {lemmata.loc[j].at["word"]} """,
                                   #value=f""" {lemmata.loc[j].at["replace"]} """, regex=True)
 
     print(datetime.datetime.now(), ': applying stopwords')
-    dataset = dataset.p_replace(stopwords, regex=True)
+    dataset = dataset.replace(stopwords, regex=True)
     #for k in tqdm(stopwords):
     #    dataset = dataset.p_replace(to_replace=f" {k} ", value=" ", regex=True)
 
