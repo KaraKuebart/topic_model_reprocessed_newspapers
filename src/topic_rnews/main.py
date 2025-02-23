@@ -8,7 +8,7 @@ import datetime
 
 if __name__ == "__main__":
     # initialize parallel pandas
-    ParallelPandas.initialize(n_cpu=384, split_factor=4)
+    ParallelPandas.initialize(n_cpu=192, split_factor=4)
     # import data from numpy arrays
     print(datetime.datetime.now(), 'beginning')
     args = read_data.get_args()

@@ -3,6 +3,7 @@ import pandas as pd
 import datetime
 from tqdm import tqdm
 
+
 from resources.pythonic_resources import stopwords, consolidations, lemmata
 
 def remove_punctuation(text):
@@ -16,24 +17,31 @@ def drop_short_lines(dataframe):
     return dataframe
 
 def main(dataset:pd.DataFrame) -> pd.DataFrame:
-
-    print(datetime.datetime.now(), ': applying consolidations')
-    for i in tqdm(consolidations.index):
-        dataset = dataset.p_replace(to_replace=consolidations.loc[i, "letters"],
-                                  value=consolidations.loc[i, "replace"],
-                                  regex=True)
-
-    print(datetime.datetime.now(), ': applying lemmata')
-    for j in tqdm(lemmata.index):
-        dataset = dataset.p_replace(to_replace=f""" {lemmata.loc[j].at["word"]} """,
-                                  value=f""" {lemmata.loc[j].at["replace"]} """, regex=True)
-
-    print(datetime.datetime.now(), ': applying stopwords')
-    for k in tqdm(stopwords):
-        dataset = dataset.p_replace(to_replace=f" {k} ", value=" ", regex=True)
-
+    dataset['text'] = dataset['text'].str.lower()
     dataset = dataset.p_replace(to_replace="-\n", value="", regex=True)
     dataset = dataset.p_replace(to_replace="\n", value=" ", regex=True)
+
+    print(datetime.datetime.now(), ': applying consolidations')
+    dataset = dataset.p_replace(consolidations, regex=True)
+
+    # for i in tqdm(consolidations.index):
+    #    dataset = dataset.p_replace(to_replace=consolidations.loc[i, "letters"],
+                                  #value=consolidations.loc[i, "replace"],
+                                  #regex=True)
+
+    print(datetime.datetime.now(), ': applying lemmata')
+    dataset = dataset.p_replace(lemmata, regex=True)
+
+    #for j in tqdm(lemmata.index):
+    #    dataset = dataset.p_replace(to_replace=f""" {lemmata.loc[j].at["word"]} """,
+                                  #value=f""" {lemmata.loc[j].at["replace"]} """, regex=True)
+
+    print(datetime.datetime.now(), ': applying stopwords')
+    dataset = dataset.p_replace(stopwords, regex=True)
+    #for k in tqdm(stopwords):
+    #    dataset = dataset.p_replace(to_replace=f" {k} ", value=" ", regex=True)
+
+
 
     print(datetime.datetime.now(), ': removing punctuation')
     dataset['text'] = dataset['text'].p_apply(remove_punctuation)
