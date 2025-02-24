@@ -6,9 +6,10 @@ from tqdm import tqdm
 from parallel_pandas import ParallelPandas
 import datetime
 
+
 if __name__ == "__main__":
     # initialize parallel pandas
-    ParallelPandas.initialize(n_cpu=192, split_factor=4)
+    ParallelPandas.initialize(n_cpu=256, split_factor=8)
     # import data from numpy arrays
     print(datetime.datetime.now(), 'beginning')
     args = read_data.get_args()
@@ -16,14 +17,7 @@ if __name__ == "__main__":
     print(datetime.datetime.now(), f'dataframe created (size:{len(news_df.index)}), joining headings and paragraphs:')
 
     # add headings and corresponding paragraphs together (if confidence is high).
-    indices = news_df.index
-    for i in tqdm(indices[:-2]):
-        if news_df.loc[i]['class'] == 'heading' and news_df.loc[i+1]['class'] == 'paragraph' and float(news_df.loc[i]['confidence']) > 0.5 and float(news_df.loc[i+1]['confidence']) > 0.5 and news_df.loc[i]['region'] == int(news_df.loc[i+1]['region']) - 1:
-            news_df.loc[i]['class'] = 'joined'
-            news_df.loc[i]['confidence'] = (news_df.loc[i]['confidence'] + news_df.loc[i+1]['confidence']) / 2.0
-            news_df.loc[i]['text'] = str(news_df.loc[i]['text']) + ' ' + str(news_df.loc[i+1]['text'])
-            news_df.drop(news_df.loc[i+1], inplace=True)
-    print(datetime.datetime.now(), 'headings and paragraphs joined')
+    news_df = preprocessing.join_headings_w_paragraphs(news_df)
 
     # drop unuseful data
     news_df = preprocessing.drop_short_lines(news_df)

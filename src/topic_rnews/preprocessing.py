@@ -1,15 +1,16 @@
 import string
-import time
+from tqdm import tqdm
 
 import pandas as pd
 import datetime
-from tqdm import tqdm
 
 
 from resources.pythonic_resources import stopwords, consolidations, lemmata
 
+
 def remove_punctuation(text):
     return text.translate(str.maketrans('', '', string.punctuation))
+
 
 def drop_short_lines(dataframe):
     print(datetime.datetime.now(), ': dropping short lines. Length before_reduction:', len(dataframe))
@@ -18,35 +19,34 @@ def drop_short_lines(dataframe):
     print(datetime.datetime.now(), ': Length after reduction:', len(dataframe))
     return dataframe
 
+
+def join_headings_w_paragraphs(local_df: pd.DataFrame) -> pd.DataFrame:
+    indices = local_df.index
+    for i in tqdm(indices[:-2]):
+        if local_df.loc[i]['class'] == 'heading' and local_df.loc[i + 1]['class'] == 'paragraph' and float(
+                local_df.loc[i]['confidence']) > 0.5 and float(local_df.loc[i + 1]['confidence']) > 0.5 and \
+                local_df.loc[i]['region'] == int(local_df.loc[i + 1]['region']) - 1:
+            local_df.loc[i]['class'] = 'joined'
+            local_df.loc[i]['confidence'] = (local_df.loc[i]['confidence'] + local_df.loc[i + 1]['confidence']) / 2.0
+            local_df.loc[i]['text'] = str(local_df.loc[i]['text']) + ' ' + str(local_df.loc[i + 1]['text'])
+            local_df.drop(local_df.loc[i + 1], inplace=True)
+    print(datetime.datetime.now(), 'headings and paragraphs joined')
+    return local_df
+
+
 def main(dataset:pd.DataFrame) -> pd.DataFrame:
     dataset['text'] = dataset['text'].str.lower()
     dataset = dataset.p_replace(to_replace="-\n", value="", regex=True)
     dataset = dataset.p_replace(to_replace="\n", value=" ", regex=True)
 
-
     print(datetime.datetime.now(), ': applying consolidations')
-    a = time.time()
     dataset = dataset.replace(consolidations, regex=True) # works faster in normal pandas than parallel pandas
-    b = time.time()
-
-    # for i in tqdm(consolidations.index):
-    #    dataset = dataset.p_replace(to_replace=consolidations.loc[i, "letters"],
-                                  #value=consolidations.loc[i, "replace"],
-                                  #regex=True)
 
     print(datetime.datetime.now(), ': applying lemmata')
     dataset = dataset.replace(lemmata, regex=True)
 
-    #for j in tqdm(lemmata.index):
-    #    dataset = dataset.p_replace(to_replace=f""" {lemmata.loc[j].at["word"]} """,
-                                  #value=f""" {lemmata.loc[j].at["replace"]} """, regex=True)
-
     print(datetime.datetime.now(), ': applying stopwords')
     dataset = dataset.replace(stopwords, regex=True)
-    #for k in tqdm(stopwords):
-    #    dataset = dataset.p_replace(to_replace=f" {k} ", value=" ", regex=True)
-
-
 
     print(datetime.datetime.now(), ': removing punctuation')
     dataset['text'] = dataset['text'].p_apply(remove_punctuation)
