@@ -2,10 +2,9 @@ import read_data
 import preprocessing
 import sentiment_analysis_fast
 from topic_model import run_lda, run_leet_topic
-from tqdm import tqdm
 from parallel_pandas import ParallelPandas
 import datetime
-
+import torch
 
 if __name__ == "__main__":
     # initialize parallel pandas
@@ -31,8 +30,12 @@ if __name__ == "__main__":
     news_df.reset_index(drop=True, inplace=True)
 
 
-    # ANALYSIS
+    # Zwischenergebnisse speichern
+    news_df.to_csv(args.output_document_path + '_pre.csv', index=False)
 
+    # ANALYSIS
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(device)
     # sentiment analysis
     news_df = sentiment_analysis_fast.per_article(news_df)
 
@@ -48,4 +51,4 @@ if __name__ == "__main__":
     print(datetime.datetime.now(), ": finished LDA")
     news_df.to_csv('output/safety_leet_save.csv', sep=';', index=False)
     # export results
-    news_df.to_csv('output/koelnische_zeitung_all.csv', sep=';', index=False)
+    news_df.to_csv(args.output_document_path + '.csv', sep=';', index=False)

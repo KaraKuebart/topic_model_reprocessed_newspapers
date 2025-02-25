@@ -8,9 +8,9 @@ import numpy as np
 from tqdm import tqdm
 
 
-def merge_data(data_path: Path, paths: List[str]) -> list:
+def merge_data(data_path: Path, paths: List[str], import_range: tuple) -> list:
     page_list = []
-    for path in tqdm(paths):
+    for path in tqdm(paths[import_range[0]:import_range[1]]):
         page_csv = np.load(data_path / f"{path}.npz")['array'].tolist()
         page_list.extend(page_csv)
     return page_list
@@ -25,8 +25,8 @@ def create_dataframe(args: argparse.Namespace) -> pd.DataFrame:
     paths = [
         f[:-4] for f in os.listdir(data_path) if f.endswith(".npz")
     ]
-
-    data = merge_data(data_path, paths)
+    import_tuple = args.import_range
+    data = merge_data(data_path, paths, import_tuple)
     df = pd.DataFrame(data, columns=["path", "region", "class", "confidence", "text"])
     df.to_csv(args.original_dataframe, sep= ';', index=False)
     return df
@@ -63,7 +63,22 @@ def get_args() -> argparse.Namespace:
         default=0.5,
         help="maximum allowed distance between document and topic for leet topic model",
     )
+    parser.add_argument(
+        "--import-range",
+        "-imp",
+        nargs="+",
+        type=int,
+        default=[0, -1],
+        help="defines which part of the files contained in the data folder will be imported",
+    )
+    parser.add_argument(
+        "--output-document-path",
+        "-out",
+        type=str,
+        default="output/out_df",
+        help="path to the output dataframe. A temporary file will be created under the same path witch '_pre.csv' added.",
+    )
     return parser.parse_args()
 
 if __name__ == "__main__":
-    create_dataframe(get_args())
+    get_args()
