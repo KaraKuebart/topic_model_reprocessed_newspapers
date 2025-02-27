@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
 
     # Zwischenergebnisse speichern
-    news_df.to_csv(args.output_document_path + '_pre.csv', index=False)
+    news_df.to_csv(args.output_document_path + '_pre.csv', sep=';', index=False)
 
     # ANALYSIS
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -46,9 +46,10 @@ if __name__ == "__main__":
     # topic modelling
     news_df = run_leet_topic(news_df, args.leet_distance)
     print(datetime.datetime.now(), ": finished leet topic model, saving, then starting LDA")
+    news_df.to_csv(args.output_document_path + 'safety_leet_save.csv', sep=';', index=False)
 
     news_df = run_lda(news_df, args.lda_numtopics)
     print(datetime.datetime.now(), ": finished LDA")
-    news_df.to_csv('output/safety_leet_save.csv', sep=';', index=False)
+
     # export results
     news_df.to_csv(args.output_document_path + '.csv', sep=';', index=False)

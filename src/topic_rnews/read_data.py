@@ -8,7 +8,7 @@ import numpy as np
 from tqdm import tqdm
 
 
-def merge_data(data_path: Path, paths: List[str], import_range: tuple) -> list:
+def merge_data(data_path: Path, paths: List[str], import_range: list) -> list:
     page_list = []
     for path in tqdm(paths[import_range[0]:import_range[1]]):
         page_csv = np.load(data_path / f"{path}.npz")['array'].tolist()
