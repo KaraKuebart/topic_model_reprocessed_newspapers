@@ -25,9 +25,6 @@ if __name__ == "__main__":
 
     args = read_data.get_args()
 
-    # initialize parallel pandas
-    ParallelPandas.initialize(n_cpu=256, split_factor=8)
-
     # import data
     b1: DataFrame = import_df('batch_1')
     b2: DataFrame = import_df('batch_2')
