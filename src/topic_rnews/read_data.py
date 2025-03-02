@@ -78,6 +78,13 @@ def get_args() -> argparse.Namespace:
         default="output/out_df",
         help="path to the output dataframe. A temporary file will be created under the same path witch '_pre.csv' added.",
     )
+    parser.add_argument(
+        "--batch-nr",
+        "-batch",
+        type=str,
+        default="batch_1",
+        help="batch to import",
+    )
     return parser.parse_args()
 
 if __name__ == "__main__":
