@@ -4,7 +4,7 @@ import read_data
 import preprocessing
 import sentiment_analysis_fast
 from topic_model import run_lda, run_leet_topic
-from parallel_pandas import ParallelPandas
+# from parallel_pandas import ParallelPandas
 import datetime
 import pandas as pd
 from leet_topic import leet_topic
@@ -22,8 +22,8 @@ def call_leet_topic(df: DataFrame, topic_number) -> pd.DataFrame:
 
 if __name__ == "__main__":
 #    print(datetime.datetime.now(), 'beginning')
-    ParallelPandas.initialize(n_cpu=192, split_factor=8)
-    # args = read_data.get_args()
+#
+    args = read_data.get_args()
 #
 #    # import data
 #    b1: DataFrame = import_df('batch_1')
@@ -55,11 +55,6 @@ if __name__ == "__main__":
 #        df_list.append(df)
 #    pd.concat(df_list).to_csv(args.output_document_path + 'double_leet.csv', sep=';', index=False)
 
-    news_df = pd.read_csv('output/news_df_full.csv', sep=';')
-#    news_df = run_leet_topic(news_df, args.leet_distance)
-    news_df = sentiment_analysis_fast.per_article(news_df)
-
-    words_of_interest = ['estland', 'lettland', 'livland', 'litauen', 'finnland', 'england', 'schweden', 'norwegen', 'daenemark', 'frankreich']
-    range_tuple = (0, 30)
-    news_df = sentiment_analysis_fast.by_words(news_df, words_of_interest, range_tuple)
-    news_df.to_csv(f'output/sentiment_results.csv', sep=';', index=False)
+    news_df = import_df(args.batch_nr)
+    news_df = run_leet_topic(news_df, args.leet_distance)
+    news_df.to_csv(f'output/leet_results{args.batch_nr}.csv', sep=';', index=False)
