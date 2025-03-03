@@ -22,7 +22,7 @@ def call_leet_topic(df: DataFrame, topic_number) -> pd.DataFrame:
 
 if __name__ == "__main__":
 #    print(datetime.datetime.now(), 'beginning')
-#
+    ParallelPandas.initialize(n_cpu=192, split_factor=8)
     # args = read_data.get_args()
 #
 #    # import data
