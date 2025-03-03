@@ -1,5 +1,3 @@
-from pandas import DataFrame
-
 import read_data
 import preprocessing
 import sentiment_analysis_fast
@@ -13,7 +11,7 @@ def import_df(name:str) -> pd.DataFrame:
     return pd.read_csv(f'output/{name}_pre.csv')
 
 
-def call_leet_topic(df: DataFrame, topic_number) -> pd.DataFrame:
+def call_leet_topic(df: pd.DataFrame, topic_number) -> pd.DataFrame:
     df_red = df.loc[df['leet_labels'] == topic_number]
     df_red = run_leet_topic(df_red, 0.1)
     df_red.to_csv(f'output/all_double_topic_on_topicnr_{topic_number}.csv', sep=';', index=False)

@@ -18,3 +18,4 @@ tqdm~=4.67.1
 nltk
 parallel_pandas
 torch
+bertopic

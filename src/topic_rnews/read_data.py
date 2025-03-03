@@ -85,6 +85,13 @@ def get_args() -> argparse.Namespace:
         default="batch_1",
         help="batch to import",
     )
+    parser.add_argument(
+        "--load-dataframe",
+        "-ldf",
+        type=str,
+        default='output/news_df_full.csv',
+        help=".csv file path to import if you wish to star on a later processing code",
+    )
     return parser.parse_args()
 
 if __name__ == "__main__":
