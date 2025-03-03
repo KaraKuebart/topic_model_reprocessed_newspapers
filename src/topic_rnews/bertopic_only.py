@@ -1,5 +1,3 @@
-import bertopic
-
 # pip install -U spacy[cuda121]
 # pip install bertopic[spacy]
 
