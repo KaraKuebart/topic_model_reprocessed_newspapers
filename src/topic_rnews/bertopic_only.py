@@ -16,8 +16,9 @@ if __name__ == "__main__":
     args = get_args()
 
     # import dataframe
-    news_df = pd.read_csv(args.load_dataframe, sep=',') # TODO remember to change this to ; !
+    news_df = pd.read_csv(args.load_dataframe, sep=';')
     topic_model = bertopic.BERTopic()
+    news_df['text'] = news_df['text'].astype(str)
     docs = news_df['text'].tolist()
     topics, probs = topic_model.fit(docs)
     df = pd.DataFrame({ 'topic': topic_model.topics_,'document': docs['id']})

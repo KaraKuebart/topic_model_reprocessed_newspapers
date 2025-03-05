@@ -23,13 +23,13 @@ def drop_short_lines(dataframe):
 def join_headings_w_paragraphs(local_df: pd.DataFrame) -> pd.DataFrame:
     indices = local_df.index
     for i in tqdm(indices[:-2]):
-        if local_df.loc[i]['class'] == 'heading' and local_df.loc[i + 1]['class'] == 'paragraph' and float(
-                local_df.loc[i]['confidence']) > 0.5 and float(local_df.loc[i + 1]['confidence']) > 0.5 and \
-                local_df.loc[i]['region'] == int(local_df.loc[i + 1]['region']) - 1:
-            local_df.loc[i]['class'] = 'joined'
-            local_df.loc[i]['confidence'] = (local_df.loc[i]['confidence'] + local_df.loc[i + 1]['confidence']) / 2.0
-            local_df.loc[i]['text'] = str(local_df.loc[i]['text']) + ' ' + str(local_df.loc[i + 1]['text'])
-            local_df.drop(local_df.loc[i + 1], inplace=True)
+        if local_df.at[i, 'class'] == 'heading' and local_df.at[i + 1, 'class'] == 'paragraph' and float(
+                local_df.at[i, 'confidence']) > 0.5 and float(local_df.at[i + 1, 'confidence']) > 0.5 and \
+                local_df.at[i, 'region'] == int(local_df.at[i + 1, 'region']) - 1:
+            local_df.at[i, 'class'] = 'joined'
+            local_df.at[i, 'confidence'] = (local_df.at[i, 'confidence'] + local_df.at[i + 1, 'confidence']) / 2.0
+            local_df.at[i, 'text'] = str(local_df.at[i, 'text']) + ' ' + str(local_df.at[i + 1, 'text'])
+            local_df.drop(i + 1, inplace=True)
     print(datetime.datetime.now(), 'headings and paragraphs joined')
     return local_df
 

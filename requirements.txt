@@ -19,3 +19,8 @@ nltk
 parallel_pandas
 torch
 bertopic
+pathlib
+typing
+matplotlib
+wordcloud
+setuptools
