@@ -8,7 +8,8 @@ def count_topic_frequency(topic_names:pd.Series) -> dict:
     return topic_names.value_counts().to_dict()
 
 if __name__ == "__main__":
-    batch_1 = pd.read_csv("output/leet_resultsbatch_1.csv", sep=";")
+    import_fd = open("output/leet_resultsbatch_1.csv", encoding="utf-8", errors="ignore")
+    batch_1 = pd.read_csv(import_fd, sep=";")
 
     batch_1.sort_values(['path', 'region'], inplace=True)
     batch_1.reset_index(drop=True, inplace=True)
