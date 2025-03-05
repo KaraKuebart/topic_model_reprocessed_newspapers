@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # Grouping by the first part
     grouped_dfs = {key: group for key, group in news_df.groupby('first_part')}
 
-    #ToDo decide to keep averages or replace by sums
+    # I decided to keep averages. An alternative would be unweighted sums
 
     words_of_interest = ['estland', 'lettland', 'livland', 'litauen', 'finnland', 'england', 'schweden', 'norwegen',
                          'daenemark', 'frankreich']
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         plt.savefig(f'output/senta_cloud_{word}.png')
         plt.close()
 
-    #ToDo create plot on overall senta res
+    # create plot on overall senta res
     sentiment_values = []
     labels = []
     for year, group_df in grouped_dfs.items():
