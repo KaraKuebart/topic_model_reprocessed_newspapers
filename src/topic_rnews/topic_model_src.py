@@ -13,10 +13,9 @@ import spacy
 
 from leet_topic import leet_topic
 import tomotopy as tp
-
 import numpy as np
-
 import matplotlib.pyplot as plt
+import datetime
 
 def lemmatization(texts_in, allowed_postags=None):
     if allowed_postags is None:
@@ -179,6 +178,13 @@ def run_leet_topic(dataframe: pd.DataFrame, max_distance: float=0.5) -> pd.DataF
                                                spacy_model="de_core_news_sm",
                                                max_distance=max_distance)
     return new_df
+
+def second_leet_topic(df: pd.DataFrame, topic_number) -> pd.DataFrame:
+    df_red = df.loc[df['leet_labels'] == topic_number]
+    df_red = run_leet_topic(df_red, 0.1)
+    df_red.to_csv(f'output/all_double_topic_on_topicnr_{topic_number}.csv', sep=';', index=False)
+    print(datetime.datetime.now(), ': finished topic nr.', topic_number)
+    return df_red
 
 def count_topic_frequency(topic_names:pd.Series) -> dict:
     return topic_names.value_counts().to_dict()

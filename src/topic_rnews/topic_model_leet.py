@@ -8,11 +8,10 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
     args = read_data.get_args()
 
-    dataframe = pd.read_csv(f"output/{args.output_document_path}_pre.csv", sep=";", on_bad_lines='warn', encoding_errors="ignore")
-
-    news_df = pd.read_csv(f'output/{args.batch_nr}_pre.csv')
-    news_df = run_leet_topic(news_df, args.leet_distance)
-    news_df.to_csv(f'output/leet_results{args.batch_nr}.csv', sep=';', index=False)
+    dataframe = pd.read_csv(args.load_dataframe, sep=";", on_bad_lines='warn', encoding_errors="ignore")
+    dataframe = run_leet_topic(dataframe, args.leet_distance)
+    filename = args.load_dataframe.split('.')[0]
+    dataframe.to_csv(f'{filename}_leet_res.csv', sep=';', index=False)
 
 
     dataframe.sort_values(['path', 'region'], inplace=True)
