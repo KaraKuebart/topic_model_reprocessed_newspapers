@@ -1,3 +1,4 @@
+from pyLDAvis import lda_model
 from tqdm import tqdm
 import pandas as pd
 
@@ -11,6 +12,10 @@ import spacy
 # spacy.cli.download("de_core_news_sm")
 
 from leet_topic import leet_topic
+import tomotopy as tp
+
+import numpy as np
+
 
 def lemmatization(texts_in, allowed_postags=None):
     if allowed_postags is None:
@@ -54,7 +59,7 @@ def find_topics(ldamodel, topic):
     return keywords, topic_num, topic_percentage
 
 
-def run_lda(data:pd.DataFrame, num_topics:int=50) -> pd.DataFrame:
+def gensim_lda(data:pd.DataFrame, num_topics:int=200) -> pd.DataFrame:
 
 
     text_data = data['text'].tolist()
@@ -173,3 +178,45 @@ def run_leet_topic(dataframe: pd.DataFrame, max_distance: float=0.5) -> pd.DataF
                                                spacy_model="de_core_news_sm",
                                                max_distance=max_distance)
     return new_df
+
+
+
+
+
+def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='tomotopy_lda') -> pd.DataFrame:
+    num_docs = dataframe.shape[0]
+    if num_topics is None:
+        num_topics = round(np.power(num_docs, 5/12))
+    mdl = tp.LDAModel(min_cf = int(np.power(num_docs, 1/3)), rm_top=int(np.log(num_docs)*20), k=num_topics, seed=42)
+    print('importing data into tomoto_lda model')
+    for i in tqdm(dataframe.index):
+        text = str(dataframe.at[i, 'text']).split()
+        mdl.add_doc(text)
+    for j in range(0, 100, 10):
+        mdl.train(10)
+        print('Iteration: {}\tLog-likelihood: {}'.format(j, mdl.ll_per_word))
+    print('removed top words', mdl.removed_top_words, '\n', '')
+    mdl.save('output/' + out_filename +'.bin')
+    print('saving tomoto_lda to dataframe')
+    for k in tqdm(dataframe.index):
+        doc_inst= mdl.docs[k]
+        print(doc_inst)
+        print(str(dataframe.at[k, 'text']).split())
+        # ???
+        print('breakpoint')
+
+        topic_dists = doc_inst.get_topic_dist()
+        print('breakpoint')
+        topic_tuplist = []
+        for l, prob in enumerate(topic_dists):
+            topic_tuplist.append((l, round(prob, 4)))
+        topic_tuplist.sort(reverse=True, key=lambda tup: tup[1])
+        print('breakpoint')
+        print(topic_tuplist)
+        print('breakpoint')
+        for m in range(0, 4):
+            dataframe.at[k, f'{m}_topic_nr'] = topic_tuplist[m][0]
+            dataframe.at[k, f'{m}_topic_probability'] = topic_tuplist[m][1]
+        return dataframe
+
+# TODO: implement inference (to train on a fraction of the data, then infer to the rest

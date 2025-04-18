@@ -1,7 +1,7 @@
 import read_data
 import preprocessing
 import sentiment_analysis_fast
-from topic_model import run_lda, run_leet_topic
+from topic_model import gensim_lda, run_leet_topic
 from parallel_pandas import ParallelPandas
 import datetime
 import torch
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     print(datetime.datetime.now(), ": finished leet topic model, saving, then starting LDA")
     news_df.to_csv(args.output_document_path + 'safety_leet_save.csv', sep=';', index=False)
 
-    news_df = run_lda(news_df, args.lda_numtopics)
+    news_df = gensim_lda(news_df, args.lda_numtopics)
     print(datetime.datetime.now(), ": finished LDA")
 
     # export results

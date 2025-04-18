@@ -1,7 +1,7 @@
 import read_data
 import preprocessing
 import sentiment_analysis_fast
-from topic_model import run_lda, run_leet_topic
+from topic_model import gensim_lda, run_leet_topic
 # from parallel_pandas import ParallelPandas
 import datetime
 import pandas as pd

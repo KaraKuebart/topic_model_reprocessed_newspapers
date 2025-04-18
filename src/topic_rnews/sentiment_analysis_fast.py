@@ -52,7 +52,7 @@ def words_row(row: pd.Series, analysis_words:list, analysis_range:tuple=(0, 30))
     found_analysis_words = {}
     n_of_countable_words = {}
     found_words = {}
-
+    # TODO: split found_words into positive and negative
     for word in analysis_words:
         found_analysis_words[word] = 0
         article_sentiments[word] = 0

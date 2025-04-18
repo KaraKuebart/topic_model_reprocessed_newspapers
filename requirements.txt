@@ -18,9 +18,10 @@ tqdm~=4.67.1
 nltk
 parallel_pandas
 torch
-bertopic
-pathlib
-typing
-matplotlib
-wordcloud
-setuptools
+bertopic~=0.16.4
+pathlib~=1.0.1
+typing~=3.10.0.0
+matplotlib~=3.10.1
+wordcloud~=1.9.4
+setuptools~=75.8.0
+tomotopy~=0.13.0

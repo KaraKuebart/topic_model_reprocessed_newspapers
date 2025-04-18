@@ -15,7 +15,7 @@ def remove_punctuation(text):
 def drop_short_lines(dataframe):
     print(datetime.datetime.now(), ': dropping short lines. Length before_reduction:', len(dataframe))
     dataframe['text'] = dataframe['text'].astype(str)
-    dataframe = dataframe.drop(dataframe[dataframe['text'].str.len() < 50].index)
+    dataframe = dataframe.drop(dataframe[dataframe['text'].str.len() < 15].index)
     print(datetime.datetime.now(), ': Length after reduction:', len(dataframe))
     return dataframe
 
