@@ -1,7 +1,7 @@
 import read_data
 import preprocessing
 import sentiment_analysis_fast
-from topic_model import gensim_lda, run_leet_topic
+# from topic_model_src import gensim_lda, run_leet_topic
 from parallel_pandas import ParallelPandas
 import datetime
 import torch
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     news_df.reset_index(drop=True, inplace=True)
 
 
-    # Zwischenergebnisse speichern
+    # save preliminary results
     news_df.to_csv(args.output_document_path + '_pre.csv', sep=';', index=False)
 
     # ANALYSIS
@@ -40,16 +40,16 @@ if __name__ == "__main__":
     news_df = sentiment_analysis_fast.per_article(news_df)
 
     words_of_interest = ['estland', 'lettland', 'livland', 'litauen', 'finnland', 'england', 'schweden', 'norwegen', 'daenemark', 'frankreich']
-    range_tuple = (0, 30)
+    range_tuple = (5, 25)
     news_df = sentiment_analysis_fast.by_words(news_df, words_of_interest, range_tuple)
-
+    news_df.to_csv(args.output_document_path + '_sent_a.csv', sep=';', index=False)
     # topic modelling
-    news_df = run_leet_topic(news_df, args.leet_distance)
-    print(datetime.datetime.now(), ": finished leet topic model, saving, then starting LDA")
-    news_df.to_csv(args.output_document_path + 'safety_leet_save.csv', sep=';', index=False)
-
-    news_df = gensim_lda(news_df, args.lda_numtopics)
-    print(datetime.datetime.now(), ": finished LDA")
-
-    # export results
-    news_df.to_csv(args.output_document_path + '.csv', sep=';', index=False)
+    #news_df = run_leet_topic(news_df, args.leet_distance)
+    #print(datetime.datetime.now(), ": finished leet topic model, saving, then starting LDA")
+    #news_df.to_csv(args.output_document_path + 'safety_leet_save.csv', sep=';', index=False)
+#
+ #   news_df = gensim_lda(news_df, args.lda_numtopics)
+  #  print(datetime.datetime.now(), ": finished LDA")
+#
+ #   # export results
+  #  news_df.to_csv(args.output_document_path + '.csv', sep=';', index=False)

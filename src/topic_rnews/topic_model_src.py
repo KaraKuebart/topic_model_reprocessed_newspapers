@@ -16,6 +16,7 @@ import tomotopy as tp
 
 import numpy as np
 
+import matplotlib.pyplot as plt
 
 def lemmatization(texts_in, allowed_postags=None):
     if allowed_postags is None:
@@ -179,6 +180,24 @@ def run_leet_topic(dataframe: pd.DataFrame, max_distance: float=0.5) -> pd.DataF
                                                max_distance=max_distance)
     return new_df
 
+def count_topic_frequency(topic_names:pd.Series) -> dict:
+    return topic_names.value_counts().to_dict()
+
+
+def topic_scatterplot(df: pd.DataFrame, filename: str) -> None:
+    global scatter, cbar
+    plt.figure(figsize=(25, 15))
+    scatter = plt.scatter(df['x'], df['y'], c=df['leet_labels'], cmap='tab10', edgecolors='k',
+                          alpha=0.75)
+    # Colorbar
+    cbar = plt.colorbar(scatter)
+    cbar.set_label('Topic Number', fontsize=30)
+    # Labels and Title
+    plt.xlabel('X Coordinate', fontsize=30)
+    plt.ylabel('Y Coordinate', fontsize=30)
+    plt.title('Topic Visualization', fontsize=30)
+    plt.savefig(f'output/{filename}.png')
+    plt.close()
 
 
 
@@ -194,26 +213,18 @@ def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='t
         mdl.add_doc(text)
     for j in range(0, 100, 10):
         mdl.train(10)
-        print('Iteration: {}\tLog-likelihood: {}'.format(j, mdl.ll_per_word))
     print('removed top words', mdl.removed_top_words, '\n', '')
     mdl.save('output/' + out_filename +'.bin')
-    print('saving tomoto_lda to dataframe')
     for k in tqdm(dataframe.index):
         doc_inst= mdl.docs[k]
         print(doc_inst)
         print(str(dataframe.at[k, 'text']).split())
-        # ???
-        print('breakpoint')
 
         topic_dists = doc_inst.get_topic_dist()
-        print('breakpoint')
         topic_tuplist = []
         for l, prob in enumerate(topic_dists):
             topic_tuplist.append((l, round(prob, 4)))
         topic_tuplist.sort(reverse=True, key=lambda tup: tup[1])
-        print('breakpoint')
-        print(topic_tuplist)
-        print('breakpoint')
         for m in range(0, 4):
             dataframe.at[k, f'{m}_topic_nr'] = topic_tuplist[m][0]
             dataframe.at[k, f'{m}_topic_probability'] = topic_tuplist[m][1]

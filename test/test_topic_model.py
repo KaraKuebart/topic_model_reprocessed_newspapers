@@ -1,7 +1,7 @@
 import unittest
 import pandas as pd
 
-from src.topic_rnews import topic_model
+from src.topic_rnews import topic_model_src
 
 class TopicModelTest(unittest.TestCase):
     def test_leet_topic_model(self):
