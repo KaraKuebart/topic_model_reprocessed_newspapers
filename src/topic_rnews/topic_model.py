@@ -217,6 +217,6 @@ def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='t
         for m in range(0, 4):
             dataframe.at[k, f'{m}_topic_nr'] = topic_tuplist[m][0]
             dataframe.at[k, f'{m}_topic_probability'] = topic_tuplist[m][1]
-        return dataframe
+    return dataframe
 
 # TODO: implement inference (to train on a fraction of the data, then infer to the rest
