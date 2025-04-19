@@ -208,7 +208,7 @@ def topic_scatterplot(df: pd.DataFrame, filename: str) -> None:
 
 
 
-def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='tomotopy_lda') -> pd.DataFrame:
+def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='tomotopy_lda'):
     num_docs = dataframe.shape[0]
     if num_topics is None:
         num_topics = round(np.power(num_docs, 5/12))
@@ -234,6 +234,6 @@ def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='t
         for m in range(0, 4):
             dataframe.at[k, f'{m}_topic_nr'] = topic_tuplist[m][0]
             dataframe.at[k, f'{m}_topic_probability'] = topic_tuplist[m][1]
-    return dataframe
+    return dataframe, mdl, num_topics
 
 # TODO: implement inference (to train on a fraction of the data, then infer to the rest

@@ -1,7 +1,7 @@
 import read_data
 from topic_model_src import run_leet_topic, topic_scatterplot, count_topic_frequency
 import pandas as pd
-from wordcloud import WordCloud
+from wordcloud import WordCloud #ToDo: set font path variable for WordCloud objects to a non-licensed version. Check MIT Licence (citation needed?)
 import pickle
 import matplotlib.pyplot as plt
 
