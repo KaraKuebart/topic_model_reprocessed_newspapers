@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
         with open(f'output/leet_words_topic_{key}.pkl', 'wb') as file:
             pickle.dump(word_frequencies, file)
-        cloud = WordCloud(width=1000, height=600, background_color='white').generate(textstring)
+        cloud = WordCloud(width=1000, height=600, background_color='white').generate_from_frequencies(word_frequencies)
         plt.figure(figsize=(10, 6))
         plt.imshow(cloud, interpolation='bilinear')
         plt.title(f'Words in Topic {key}', fontsize=30)

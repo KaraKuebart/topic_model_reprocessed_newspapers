@@ -44,11 +44,11 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(device)
     # sentiment analysis
-    news_df = sentiment_analysis_fast.per_article(news_df)
+    news_df = sentiment_analysis_src.per_article(news_df)
 
     words_of_interest = ['estland', 'lettland', 'livland', 'litauen', 'finnland', 'england', 'schweden', 'norwegen', 'daenemark', 'frankreich']
     range_tuple = (5, 25)
-    news_df = sentiment_analysis_fast.by_words(news_df, words_of_interest, range_tuple)
+    news_df = sentiment_analysis_src.by_words(news_df, words_of_interest, range_tuple)
     news_df.to_csv(args.output_document_path + '_sent_a.csv', sep=';', index=False)
 
     print(datetime.datetime.now(), ': start')
