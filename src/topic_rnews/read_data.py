@@ -92,6 +92,13 @@ def get_args() -> argparse.Namespace:
         default='output/news_df_full.csv',
         help=".csv file path to import if you wish to star on a later processing code",
     )
+    parser.add_argument(
+        "--no-of-cpu-cores",
+        "-n-cpu",
+        type=int,
+        default=4,
+        help="number of cores in the cpu used. Adapt this for optimum performance",
+    )
     return parser.parse_args()
 
 if __name__ == "__main__":

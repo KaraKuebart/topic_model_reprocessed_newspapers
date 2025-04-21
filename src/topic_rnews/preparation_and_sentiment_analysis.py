@@ -1,7 +1,6 @@
 import read_data
 import preprocessing
 import sentiment_analysis_src
-# from topic_model_src import gensim_lda, run_leet_topic
 from parallel_pandas import ParallelPandas
 import datetime
 import torch
@@ -15,10 +14,11 @@ import numpy as np
 
 if __name__ == "__main__":
     # initialize parallel pandas
-    ParallelPandas.initialize(n_cpu=256, split_factor=8)
+    args = read_data.get_args()
+    ParallelPandas.initialize(n_cpu=args.no_of_cpu_cores, split_factor=4)
     # import data from numpy arrays
     print(datetime.datetime.now(), 'beginning')
-    args = read_data.get_args()
+
     news_df = read_data.create_dataframe(args)
     print(datetime.datetime.now(), f'dataframe created (size:{len(news_df.index)}), joining headings and paragraphs:')
 
@@ -149,14 +149,3 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.savefig(f'output/sentiment_values.png')
     plt.close()
-
-    # topic modelling
-    #news_df = run_leet_topic(news_df, args.leet_distance)
-    #print(datetime.datetime.now(), ": finished leet topic model, saving, then starting LDA")
-    #news_df.to_csv(args.output_document_path + 'safety_leet_save.csv', sep=';', index=False)
-#
- #   news_df = gensim_lda(news_df, args.lda_numtopics)
-  #  print(datetime.datetime.now(), ": finished LDA")
-#
- #   # export results
-  #  news_df.to_csv(args.output_document_path + '.csv', sep=';', index=False)

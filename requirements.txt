@@ -14,7 +14,7 @@ gensim>=4.3.0
 annoy>=1.17.0
 tf-keras
 leet_topic
-tqdm~=4.67.1
+tqdm
 nltk
 parallel_pandas
 torch
