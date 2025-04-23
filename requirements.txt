@@ -1,27 +1,12 @@
-numpy >= 1.18.5, < 2.0
-scipy >= 1.7.0, <1.13
-smart_open >= 1.8.1
-pandas >= 1.0.0, <2.0.0
-bokeh>=2.4.0, <2.4.3
-sentence_transformers>=2.0.0
-umap-learn>=0.5.0
-hdbscan>=0.8.0
-protobuf>=4.24.2
-wrapt==1.14.0
-tensorflow>=2.8.0
-spacy>=3.3.0
-gensim>=4.3.0
-annoy>=1.17.0
+pandas>=1.4.0, <2.2.3
+numpy<2.0.0
+tqdm==4.67.1
+matplotlib==3.10.1
+tomotopy==0.13.0
+wordcloud==1.9.4
+bertopic==0.17.0
+cuml-cu12==25.4.0
+setuptools==79.0.0
 tf-keras
-leet_topic
-tqdm
-nltk
-parallel_pandas
-torch
-bertopic~=0.16.4
-pathlib~=1.0.1
-typing~=3.10.0.0
-matplotlib~=3.10.1
-wordcloud~=1.9.4
-setuptools~=75.8.0
-tomotopy~=0.13.0
+sentence-transformers==4.1.0
+parallel_pandas==0.6.5

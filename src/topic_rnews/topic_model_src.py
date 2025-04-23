@@ -1,5 +1,7 @@
 import pickle
 import datetime
+
+from tomotopy.utils import SimpleTokenizer
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import numpy as np
@@ -57,6 +59,9 @@ def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='t
         num_topics = round(np.power(num_docs, 5/12))
     mdl = tp.LDAModel(min_cf = int(np.power(num_docs, 1/3)), rm_top=int(np.log(num_docs)*20), k=num_topics, seed=42)
     print('importing data into tomoto_lda model')
+    # corpus = tp.utils.Corpus(tokenizer=SimpleTokenizer)
+    # corpus.process(dataframe['text'].tolist())
+    # mdl.add_corpus(corpus)
     for i in tqdm(dataframe.index):
         text = str(dataframe.at[i, 'text']).split()
         mdl.add_doc(text)
@@ -66,9 +71,6 @@ def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='t
     mdl.save('output/' + out_filename +'.bin')
     for k in tqdm(dataframe.index):
         doc_inst= mdl.docs[k]
-        print(doc_inst)
-        print(str(dataframe.at[k, 'text']).split())
-
         topic_dists = doc_inst.get_topic_dist()
         topic_tuplist = []
         for l, prob in enumerate(topic_dists):

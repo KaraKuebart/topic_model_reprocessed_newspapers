@@ -1,13 +1,13 @@
-import gensim
-import spacy
-from gensim import corpora
-from gensim.models import TfidfModel
-
-import read_data
-import pandas as pd
-from tqdm import tqdm
-import datetime
-
+# import gensim
+# import spacy
+# from gensim import corpora
+# from gensim.models import TfidfModel
+#
+# import read_data
+# import pandas as pd
+# from tqdm import tqdm
+# import datetime
+#
 
 def gensim_lda(data:pd.DataFrame, num_topics:int=200) -> pd.DataFrame:
 
