@@ -1,7 +1,7 @@
 import pickle
 import datetime
 
-from tomotopy.utils import SimpleTokenizer
+# from tomotopy.utils import SimpleTokenizer
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import numpy as np
@@ -36,7 +36,6 @@ def count_topic_frequency(topic_names:pd.Series) -> dict:
 
 
 def topic_scatterplot(df: pd.DataFrame, filename: str) -> None:
-    global scatter, cbar
     plt.figure(figsize=(25, 15))
     scatter = plt.scatter(df['x'], df['y'], c=df['leet_labels'], cmap='tab10', edgecolors='k',
                           alpha=0.75)
@@ -46,7 +45,7 @@ def topic_scatterplot(df: pd.DataFrame, filename: str) -> None:
     # Labels and Title
     plt.xlabel('X Coordinate', fontsize=30)
     plt.ylabel('Y Coordinate', fontsize=30)
-    plt.title('Topic Visualization', fontsize=30)
+    plt.title('Topic distribution Visualization', fontsize=30)
     plt.savefig(f'output/{filename}.png')
     plt.close()
 

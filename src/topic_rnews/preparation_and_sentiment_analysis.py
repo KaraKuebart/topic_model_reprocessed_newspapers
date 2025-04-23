@@ -3,7 +3,6 @@ import preprocessing
 import sentiment_analysis_src
 from parallel_pandas import ParallelPandas
 import datetime
-import torch
 import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
@@ -41,8 +40,7 @@ if __name__ == "__main__":
     news_df.to_csv(args.output_document_path + '_pre.csv', sep=';', index=False)
 
     # ANALYSIS
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(device)
+
     # sentiment analysis
     news_df = sentiment_analysis_src.per_article(news_df)
 
