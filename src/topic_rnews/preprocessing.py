@@ -20,7 +20,7 @@ def drop_short_lines(dataframe):
     return dataframe
 
 
-def join_headings_w_paragraphs(local_df: pd.DataFrame) -> pd.DataFrame:
+def join_headings_w_paragraphs(local_df: pd.DataFrame) -> pd.DataFrame: #TODO check why this code never actually adds anything. Something is wrong, but I don't see it
     indices = local_df.index
     for i in tqdm(indices[:-2]):
         if local_df.at[i, 'class'] == 'heading' and local_df.at[i + 1, 'class'] == 'paragraph' and float(
