@@ -1,17 +1,9 @@
-numpy >= 1.18.5, < 2.0
-scipy >= 1.7.0, <1.13
-smart_open >= 1.8.1
-pandas >= 1.0.0, <2.0.0
-bokeh>=2.4.0, <2.4.3
-tensorflow>=2.8.0
-spacy>=3.3.0
-gensim>=4.3.0
-annoy>=1.17.0
-tf-keras
-leet_topic
-tqdm
-nltk
-parallel_pandas
-wordcloud~=1.9.4
-setuptools~=75.8.0
-tomotopy~=0.13.0
+numpy==1.23.5
+tomotopy==0.13.0
+pandas==1.5.3
+tqdm==4.66.2
+parallel-pandas==0.5.2
+tf-keras==2.19.0
+leet-topic==0.0.11
+matplotlib==3.7.1
+wordcloud==1.9.2
