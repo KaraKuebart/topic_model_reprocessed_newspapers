@@ -1,4 +1,4 @@
-numpy<2.0.0
+numpy>=1.10.0,<2
 pandas>=2.0.0, <2.2.3
 parallel_pandas==0.6.5
 tqdm==4.67.1
