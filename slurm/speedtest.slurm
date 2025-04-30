@@ -1,14 +1,15 @@
 #!/bin/bash
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=96
-#SBATCH --partition=lm_long
-#SBATCH --mem=1800G
-#SBATCH --job-name=sent_a
+#SBATCH --gres gpu:1
+#SBATCH --ntasks-per-node=128
+#SBATCH --partition=sgpu_medium
+#SBATCH --mem=800G
+#SBATCH --job-name=analysis_speedtest
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de
 #SBATCH --mail-type=ALL
-#SBATCH --time 1-12:00:00
+#SBATCH --time 18:00:00
 
 
 
