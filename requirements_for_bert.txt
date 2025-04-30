@@ -6,6 +6,5 @@ matplotlib==3.10.1
 tomotopy==0.13.0
 wordcloud==1.9.4
 cuml-cu12==25.4.0
-setuptools==79.0.0
 sentence-transformers==4.1.0
 bertopic==0.17.0

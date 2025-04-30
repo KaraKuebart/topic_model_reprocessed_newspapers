@@ -2,7 +2,7 @@ numpy==1.23.5
 tomotopy==0.13.0
 pandas==1.5.3
 tqdm==4.66.2
-parallel-pandas==0.5.2
+parallel-pandas==0.6.2
 tf-keras==2.19.0
 leet-topic==0.0.11
 matplotlib==3.7.1
