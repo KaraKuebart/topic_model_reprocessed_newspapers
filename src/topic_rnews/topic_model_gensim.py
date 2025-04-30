@@ -1,13 +1,13 @@
-# import gensim
-# import spacy
-# from gensim import corpora
-# from gensim.models import TfidfModel
-#
-# import read_data
-# import pandas as pd
-# from tqdm import tqdm
-# import datetime
-#
+import gensim
+import spacy
+from gensim import corpora
+from gensim.models import TfidfModel
+
+import read_data
+import pandas as pd
+from tqdm import tqdm
+import datetime
+
 
 def gensim_lda(data:pd.DataFrame, num_topics:int=200) -> pd.DataFrame:
 
@@ -167,5 +167,5 @@ if __name__ == "__main__":
     print(datetime.datetime.now(), ": finished LDA")
 
     # export results
-    dataframe.to_csv(args.output_document_path + '.csv', sep=';', index=False)
+    dataframe.to_csv(args.output_document_path + '_gensim_res.csv', sep=';', index=False)
 

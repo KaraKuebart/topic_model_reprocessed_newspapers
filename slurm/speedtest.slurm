@@ -21,10 +21,10 @@ eval "$(conda shell.bash hook)"
 conda activate for_gensim
 export PYTHONPATH=${PYTHONPATH}:
 python src/topic_rnews/preparation_and_sentiment_analysis.py -n-cpu 64 -d /home/nkuebart_hpc/npzs/ -imp [0, 5000] -od output/speedtest_df_raw.csv -out output/speedtest_df
-python src/topic_rnews/topic_model_gensim.py
-python src/topic_rnews/topic_model_bert.py
+python src/topic_rnews/topic_model_gensim.py -ldf output/speedtest_df_pre.csv -lda 500 -out output/speedtest_df
+python src/topic_rnews/topic_model_leet.py -ldf output/speedtest_df_pre.csv -leet 0.2 -out output/speedtest_df
+python src/topic_rnews/topic_model_tomoto.py -ldf output/speedtest_df_pre.csv -leet 0.2 -out output/speedtest_df
 
 conda deactivate
 conda activate for_bert
-python src/topic_rnews/topic_model_bert.py
-python src/topic_rnews/topic_model_tomoto.py
+python src/topic_rnews/topic_model_bert.py -ldf output/speedtest_df_pre.csv -leet 0.2 -out output/speedtest_df

@@ -11,8 +11,7 @@ if __name__ == "__main__":
 
     print(f'{datetime.datetime.now()}: beginning leet topic model')
     dataframe = run_leet_topic(dataframe, args.leet_distance)
-    filename = args.load_dataframe.split('.')[0]
-    dataframe.to_csv(f'{filename}_leet_res.csv', sep=';', index=False)
+    dataframe.to_csv(args.output_document_path + '_leet_res.csv', sep=';', index=False)
 
     print(f'{datetime.datetime.now()}: creating scatter plots')
     dataframe.sort_values(['path', 'region'], inplace=True)

@@ -25,5 +25,4 @@ if __name__ == "__main__":
     df = pd.DataFrame({ 'topic': topic_model.topics_,'document': docs['id']})
     news_df['bertopic'] = pd.Series(topics)
     news_df['bertopic_prob'] = pd.Series(probs)
-    filename = args.load_dataframe.split('.')[0]
-    news_df.to_csv(filename + '_bertopic_res.csv', index=False)
+    news_df.to_csv(args.output_document_path + '_bertopic_res.csv', index=False)
