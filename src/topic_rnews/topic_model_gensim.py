@@ -52,6 +52,7 @@ def lemmatization(texts_in, allowed_postags=None):
     nlp = spacy.load("de_core_news_sm", disable=["parser", "ner"])
     texts_out = []
     for text in tqdm(texts_in):
+        text = str(text)
         doc = nlp(text)
         new_text = []
         for token in doc:

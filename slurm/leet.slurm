@@ -1,23 +1,22 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=96
-#SBATCH --partition=lm_long
-#SBATCH --mem=1800G
-#SBATCH --job-name=leet
+#SBATCH --partition=intelsr
+#SBATCH --mem=250G
+#SBATCH --job-name=sent_a
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de
 #SBATCH --mail-type=ALL
-#SBATCH --time 15:00:00
-
-
+#SBATCH --time 2-12:00:00
 
 ln -sf logs/job.$SLURM_JOB_ID.err latest.err
 ln -sf logs/job.$SLURM_JOB_ID.out latest.out
 
 cd /home/nkuebart_hpc/topic_model_reprocessed_newspapers/
 eval "$(conda shell.bash hook)"
-conda activate base
+
+conda activate for_gensim
+
 export PYTHONPATH=${PYTHONPATH}:
-python src/topic_rnews/leet_only.py -leet 0.05 -batch batch_1
-python src/topic_rnews/visualization_leet_b1_2nd.py
+python src/topic_rnews/topic_model_leet.py -ldf output/prep_pre.csv -leet 0.2 -out output/leet

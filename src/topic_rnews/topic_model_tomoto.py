@@ -14,17 +14,20 @@ def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='t
     if num_topics is None:
         num_topics = round(np.power(num_docs, 5/12))
     mdl = tp.LDAModel(min_cf = int(np.power(num_docs, 1/3)), rm_top=int(np.log(num_docs)*20), k=num_topics, seed=42)
-    print('importing data into tomoto_lda model')
+    print(datetime.datetime.now(), ': importing data into tomoto_lda model')
     # corpus = tp.utils.Corpus(tokenizer=SimpleTokenizer)
     # corpus.process(dataframe['text'].tolist())
     # mdl.add_corpus(corpus)
     for i in tqdm(dataframe.index):
         text = str(dataframe.at[i, 'text']).split()
         mdl.add_doc(text)
-    for j in range(0, 100, 10):
+    print(datetime.datetime.now(), ': import done. Starting training')
+    for j in range(0, 100, 10): # this is how bab2min recommends using his Topic Model. It will result 100 iterations, grouped in 10s.
         mdl.train(10)
-    print('removed top words', mdl.removed_top_words, '\n', '')
+    print(datetime.datetime.now(), ': training done. Saving model')
     mdl.save('output/' + out_filename +'.bin')
+    print(datetime.datetime.now(), ': removed top words', mdl.removed_top_words, '\n', '')
+
     for k in tqdm(dataframe.index):
         doc_inst= mdl.docs[k]
         topic_dists = doc_inst.get_topic_dist()

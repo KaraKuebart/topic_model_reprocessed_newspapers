@@ -62,23 +62,25 @@ if __name__ == "__main__":
 
     topic_dict = count_topic_frequency(dataframe['leet_labels'])
 
-    most_frequent_topics = dict(list(topic_dict.items())[1:100])
+    most_frequent_topics = dict(list(topic_dict.items())[1:101])
 
     print(f'{datetime.datetime.now()}: creating word clouds for each topic')
     for key in tqdm(most_frequent_topics.keys()):
-        temp_df = dataframe.loc[dataframe['leet_labels'] == key]
-        temp_df.to_csv(f"output/leet_topic_{key}.csv", sep=';', index=False)
-        textlist = temp_df['text'].tolist()
-        texts_string = '\n'.join(textlist)
-        texts_string.replace('\n', ' ')
-        wordlist = texts_string.split(' ')
-        word_frequencies = {}
-        word_set = set(wordlist)
-        for item in word_set:
-            word_frequencies[item] = wordlist.count(item)
+       try:
+            temp_df = dataframe.loc[dataframe['leet_labels'] == key]
+            temp_df.to_csv(f"output/leet_topic_{key}.csv", sep=';', index=False)
+            textlist = temp_df['text'].tolist()
+            texts_string = '\n'.join(textlist)
+            texts_string.replace('\n', ' ')
+            wordlist = texts_string.split(' ')
+            word_frequencies = {}
+            word_set = set(wordlist)
+            for item in word_set:
+                word_frequencies[item] = wordlist.count(item)
 
-        make_wordcloud('leet', key, word_frequencies)
-
+            make_wordcloud('leet', key, word_frequencies)
+       except Exception as e:
+           print(" an error occurred: ", e)
     most_important_topics_list = list(most_frequent_topics.keys())
     reduced_df = dataframe.loc[dataframe['leet_labels'].isin(most_important_topics_list)]
 
