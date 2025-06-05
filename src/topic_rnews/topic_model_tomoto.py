@@ -1,9 +1,45 @@
+import numpy as np
 import pandas as pd
+import tomotopy as tp
+
 from read_data import get_args
-from topic_model_src import tomoto_lda, make_wordcloud
+from topic_model_src import make_wordcloud
 
 import datetime
 from tqdm import tqdm
+
+
+def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='tomotopy_lda'):
+    num_docs = dataframe.shape[0]
+    if num_topics is None:
+        num_topics = round(np.power(num_docs, 5/12))
+    mdl = tp.LDAModel(min_cf = int(np.power(num_docs, 1/3)), rm_top=int(np.log(num_docs)*20), k=num_topics, seed=42)
+    print('importing data into tomoto_lda model')
+    # corpus = tp.utils.Corpus(tokenizer=SimpleTokenizer)
+    # corpus.process(dataframe['text'].tolist())
+    # mdl.add_corpus(corpus)
+    for i in tqdm(dataframe.index):
+        text = str(dataframe.at[i, 'text']).split()
+        mdl.add_doc(text)
+    for j in range(0, 100, 10):
+        mdl.train(10)
+    print('removed top words', mdl.removed_top_words, '\n', '')
+    mdl.save('output/' + out_filename +'.bin')
+    for k in tqdm(dataframe.index):
+        doc_inst= mdl.docs[k]
+        topic_dists = doc_inst.get_topic_dist()
+        topic_tuplist = []
+        for l, prob in enumerate(topic_dists):
+            topic_tuplist.append((l, round(prob, 4)))
+        topic_tuplist.sort(reverse=True, key=lambda tup: tup[1])
+        for m in range(0, 4):
+            dataframe.at[k, f'{m}_topic_nr'] = topic_tuplist[m][0]
+            dataframe.at[k, f'{m}_topic_probability'] = topic_tuplist[m][1]
+    return dataframe, mdl, num_topics
+
+
+# TODO: implement inference (to train on a fraction of the data, then infer to the rest
+
 
 if __name__ == "__main__":
     # get args for import
