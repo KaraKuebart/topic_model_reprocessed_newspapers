@@ -36,8 +36,8 @@ def join_headings_w_paragraphs(local_df: pd.DataFrame) -> pd.DataFrame: #TODO ch
 
 def main(dataset:pd.DataFrame) -> pd.DataFrame:
     dataset['text'] = dataset['text'].str.lower()
-    dataset = dataset.p_replace(to_replace="-\n", value="", regex=True)
-    dataset = dataset.p_replace(to_replace="\n", value=" ", regex=True)
+    dataset = dataset.replace(to_replace="-\n", value="", regex=True)
+    dataset = dataset.replace(to_replace="\n", value=" ", regex=True)
 
     print(datetime.datetime.now(), ': applying consolidations')
     dataset = dataset.replace(consolidations, regex=True) # works faster in normal pandas than parallel pandas
