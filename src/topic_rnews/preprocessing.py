@@ -35,8 +35,11 @@ def join_headings_w_paragraphs(local_df: pd.DataFrame) -> pd.DataFrame: #TODO ch
 
 
 def main(dataset:pd.DataFrame) -> pd.DataFrame:
+    print(datetime.datetime.now(), ': beginning preprocessing main function. Making lowercase ...')
     dataset['text'] = dataset['text'].str.lower()
+    print(datetime.datetime.now(), ': removing newlines with dash')
     dataset = dataset.replace(to_replace="-\n", value="", regex=True)
+    print(datetime.datetime.now(), ': removing newlines')
     dataset = dataset.replace(to_replace="\n", value=" ", regex=True)
 
     print(datetime.datetime.now(), ': applying consolidations')
