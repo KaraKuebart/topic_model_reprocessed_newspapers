@@ -49,9 +49,7 @@ if __name__ == "__main__":
     news_df = sentiment_analysis_src.by_words(news_df, words_of_interest, range_tuple)
     news_df.to_csv(args.output_document_path + '_sent_a.csv', sep=';', index=False)
 
-    print(datetime.datetime.now(), ': start')
-    news_df = pd.read_csv("output/sentiment_results.csv", sep=';')
-    print(datetime.datetime.now(), ': import complete')
+    print(datetime.datetime.now(), ': starting sentiment analysis')
     news_df.sort_values(['path', 'region'], inplace=True)
     news_df.reset_index(drop=True, inplace=True)
     print(datetime.datetime.now(), ': reset index')
@@ -123,11 +121,12 @@ if __name__ == "__main__":
         for year, string in words_res.items():
             if len(string) > 10:
                 cloud_words += ' ' + string
-        cloud = WordCloud(width=1000, height=600, background_color='white').generate(cloud_words)
-        plt.figure(figsize=(10, 6))
-        plt.imshow(cloud, interpolation='bilinear')
-        plt.savefig(f'output/senta_cloud_{word}.png')
-        plt.close()
+        if len(cloud_words) > 0:
+            cloud = WordCloud(width=1000, height=600, background_color='white').generate(cloud_words)
+            plt.figure(figsize=(10, 6))
+            plt.imshow(cloud, interpolation='bilinear')
+            plt.savefig(f'output/senta_cloud_{word}.png')
+            plt.close()
 
     # create plot on overall senta res
     sentiment_values = []

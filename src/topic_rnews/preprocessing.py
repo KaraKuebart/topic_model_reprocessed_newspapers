@@ -38,18 +38,21 @@ def main(dataset:pd.DataFrame) -> pd.DataFrame:
     print(datetime.datetime.now(), ': beginning preprocessing main function. Making lowercase ...')
     dataset['text'] = dataset['text'].str.lower()
     print(datetime.datetime.now(), ': removing newlines with dash')
-    dataset = dataset.replace(to_replace="-\n", value="", regex=True)
+    dataset = dataset.p_replace(to_replace="-\n", value="", regex=True)
     print(datetime.datetime.now(), ': removing newlines')
-    dataset = dataset.replace(to_replace="\n", value=" ", regex=True)
+    dataset = dataset.p_replace(to_replace="\n", value=" ", regex=True)
 
     print(datetime.datetime.now(), ': applying consolidations')
-    dataset = dataset.replace(consolidations, regex=True) # works faster in normal pandas than parallel pandas
+
+    dataset = dataset.p_replace(consolidations, regex=True) # works faster in normal pandas than parallel pandas in most cases
 
     print(datetime.datetime.now(), ': applying lemmata')
-    dataset = dataset.replace(lemmata, regex=True)
+
+    dataset = dataset.p_replace(lemmata, regex=True)
 
     print(datetime.datetime.now(), ': applying stopwords')
-    dataset = dataset.replace(stopwords, regex=True)
+
+    dataset = dataset.p_replace(stopwords, regex=True)
 
     print(datetime.datetime.now(), ': removing punctuation')
     dataset['text'] = dataset['text'].p_apply(remove_punctuation)
