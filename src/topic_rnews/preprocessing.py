@@ -20,16 +20,17 @@ def drop_short_lines(dataframe):
     return dataframe
 
 
-def join_headings_w_paragraphs(local_df: pd.DataFrame) -> pd.DataFrame: #TODO check why this code never actually adds anything. Something is wrong, but I don't see it
+def join_headings_w_paragraphs(local_df: pd.DataFrame) -> pd.DataFrame:
     indices = local_df.index
     for i in tqdm(indices[:-2]):
-        if local_df.at[i, 'class'] == 'heading' and local_df.at[i + 1, 'class'] == 'paragraph' and float(
-                local_df.at[i, 'confidence']) > 0.5 and float(local_df.at[i + 1, 'confidence']) > 0.5 and \
-                local_df.at[i, 'region'] == int(local_df.at[i + 1, 'region']) - 1:
-            local_df.at[i, 'class'] = 'joined'
-            local_df.at[i, 'confidence'] = (local_df.at[i, 'confidence'] + local_df.at[i + 1, 'confidence']) / 2.0
-            local_df.at[i, 'text'] = str(local_df.at[i, 'text']) + ' ' + str(local_df.at[i + 1, 'text'])
-            local_df.drop(i + 1, inplace=True)
+        if i in local_df.index:
+            if local_df.at[i, 'class'] == 'heading' and local_df.at[i + 1, 'class'] == 'paragraph' and float(
+                    local_df.at[i, 'confidence']) > 0.5 and float(local_df.at[i + 1, 'confidence']) > 0.5 and \
+                    int(local_df.at[i, 'region']) == int(local_df.at[i + 1, 'region']) - 1:
+                local_df.at[i, 'class'] = 'joined'
+                local_df.at[i, 'confidence'] = (float(local_df.at[i, 'confidence']) + float(local_df.at[i + 1, 'confidence'])) / 2.0
+                local_df.at[i, 'text'] = str(local_df.at[i, 'text']) + ' ' + str(local_df.at[i + 1, 'text'])
+                local_df.drop(i + 1, inplace=True)
     print(datetime.datetime.now(), 'headings and paragraphs joined')
     return local_df
 
@@ -55,6 +56,7 @@ def main(dataset:pd.DataFrame) -> pd.DataFrame:
     dataset = dataset.p_replace(stopwords, regex=True)
 
     print(datetime.datetime.now(), ': removing punctuation')
+
     dataset['text'] = dataset['text'].p_apply(remove_punctuation)
 
     print(datetime.datetime.now(), ': preprocessing done')
