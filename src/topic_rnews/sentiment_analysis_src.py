@@ -8,6 +8,7 @@ lexicon['words'] = lexicon['words'].astype(str)
 
 def article_row(article:str) -> (float, int):
     # convert article to list
+    article = str(article)
     article = article.split(" ")
 
     # set starting values for word-counts and sentiment
