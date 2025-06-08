@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=128
 #SBATCH --partition=sgpu_long
 #SBATCH --mem=800G
-#SBATCH --job-name=analysis_speedtest
+#SBATCH --job-name=bertopic
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de

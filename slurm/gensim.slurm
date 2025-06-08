@@ -2,7 +2,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --partition=lm_long
 #SBATCH --mem=500G
-#SBATCH --job-name=sent_a
+#SBATCH --job-name=gensim
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de
