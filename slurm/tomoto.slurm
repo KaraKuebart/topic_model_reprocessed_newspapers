@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=96
 #SBATCH --partition=intelsr
-#SBATCH --mem=250G
+#SBATCH --mem=500G
 #SBATCH --job-name=sent_a
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
