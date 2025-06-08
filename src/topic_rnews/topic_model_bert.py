@@ -14,7 +14,7 @@ if __name__ == "__main__":
     news_df = pd.read_csv(args.load_dataframe, sep=';')
 
     embedding_model = SentenceTransformer("distiluse-base-multilingual-cased-v2")
-    embeddings = embedding_model.encode(news_df["text"], show_progress_bar=True)
+    embeddings = embedding_model.encode(news_df["text"].astype(str), show_progress_bar=True)
 
     umap_model = UMAP(n_components=5, n_neighbors=15, min_dist=0.0, metric='cosine', random_state=42)
     hdbscan_model = HDBSCAN(min_samples=10, gen_min_span_tree=True, prediction_data=True)
