@@ -1,6 +1,5 @@
 #!/bin/bash
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=96
+#SBATCH --ntasks-per-node=1
 #SBATCH --partition=intelsr
 #SBATCH --mem=500G
 #SBATCH --job-name=sent_a
@@ -8,7 +7,7 @@
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de
 #SBATCH --mail-type=ALL
-#SBATCH --time 2-12:00:00
+#SBATCH --time 5-00:00:00
 
 ln -sf logs/job.$SLURM_JOB_ID.err latest.err
 ln -sf logs/job.$SLURM_JOB_ID.out latest.out
