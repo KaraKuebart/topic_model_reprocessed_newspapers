@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks-per-node=1
-#SBATCH --partition=intelsr
+#SBATCH --partition=lm_long
 #SBATCH --mem=500G
 #SBATCH --job-name=sent_a
 #SBATCH --error=logs/job.%J.err

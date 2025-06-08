@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --gres gpu:1
 #SBATCH --ntasks-per-node=128
-#SBATCH --partition=sgpu_medium
+#SBATCH --partition=sgpu_long
 #SBATCH --mem=800G
 #SBATCH --job-name=analysis_speedtest
 #SBATCH --error=logs/job.%J.err
