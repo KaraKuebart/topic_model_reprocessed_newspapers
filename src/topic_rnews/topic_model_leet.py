@@ -49,7 +49,7 @@ if __name__ == "__main__":
     args = read_data.get_args()
 
     dataframe = pd.read_csv(args.load_dataframe, sep=";", on_bad_lines='warn', encoding_errors="ignore")
-
+    dataframe = dataframe.astype(str)
     print(f'{datetime.datetime.now()}: beginning leet topic model')
     dataframe = run_leet_topic(dataframe, args.leet_distance)
     dataframe.to_csv(args.output_document_path + '_leet_res.csv', sep=';', index=False)
