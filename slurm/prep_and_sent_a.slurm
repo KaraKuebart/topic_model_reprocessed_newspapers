@@ -3,7 +3,7 @@
 #SBATCH --ntasks-per-node=96
 #SBATCH --partition=lm_long
 #SBATCH --mem=500G
-#SBATCH --job-name=sent_a
+#SBATCH --job-name=prep
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de
@@ -19,4 +19,4 @@ eval "$(conda shell.bash hook)"
 conda activate for_gensim
 
 export PYTHONPATH=${PYTHONPATH}:
-python src/topic_rnews/preparation_and_sentiment_analysis.py -n-cpu 96 -d /home/nkuebart_hpc/npzs/ -od output/news_df_raw.csv -out output/prep
+python src/topic_rnews/preparation_and_sentiment_analysis.py -n-cpu 96 -d /home/nkuebart_hpc/npzs/ -imp 0 141731 -od output/third_raw.csv -out output/third
