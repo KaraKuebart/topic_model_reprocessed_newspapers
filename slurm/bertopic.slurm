@@ -3,7 +3,7 @@
 #SBATCH --gres gpu:1
 #SBATCH --ntasks-per-node=64
 #SBATCH --partition=sgpu_long
-#SBATCH --mem=500G
+#SBATCH --mem=400G
 #SBATCH --job-name=bertopic
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
