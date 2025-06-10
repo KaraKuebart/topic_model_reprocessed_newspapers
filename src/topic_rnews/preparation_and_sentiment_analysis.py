@@ -16,40 +16,40 @@ if __name__ == "__main__":
     args = read_data.get_args()
     ParallelPandas.initialize(n_cpu=args.no_of_cpu_cores, split_factor=4)
 
-    # import data from numpy arrays
-    print(datetime.datetime.now(), ': beginning import')
-
-    news_df = read_data.create_dataframe(args)
-    print(datetime.datetime.now(), f': dataframe created (size:{len(news_df.index)}), joining headings and paragraphs:')
-
-    # add headings and corresponding paragraphs together (if confidence is high).
-    # news_df = preprocessing.join_headings_w_paragraphs(news_df) # DEACTIVATED BECAUSE IT TAKES TOO LONG
-
-    # drop unuseful data
-    news_df = preprocessing.drop_short_lines(news_df)
-
-    # preprocessing: lowercase,
-        # consolidations (long ſ -> s, ä ö ü ß -> ae oe ue ss),
-        # lemmata (OCR corrections),
-        # stopword removal,
-        # punctuation removal:
-    news_df = preprocessing.main(news_df)
-
-    # now it is possible, though extremely unlikely (but since we're working with millions of articles,
-    # even extremely unlikely cases do occur from time to time) that an article existed which
-    # - previously contained only numbers and punctuation - is now empty. This must be removed, or it could produce errors
-    # I've also added code to ensure such errors don't occur anymore,
-    # but who knows... you might run into a rare case I didn't account for, so just to be safe, drop short lines again:
-    news_df = preprocessing.drop_short_lines(news_df)
-
-    news_df.reset_index(drop=True, inplace=True)
-
-
-    # save preliminary results
-    news_df.to_csv(args.output_document_path + '_pre.csv', sep=';', index=False)
+    # # import data from numpy arrays
+    # print(datetime.datetime.now(), ': beginning import')
+    #
+    # news_df = read_data.create_dataframe(args)
+    # print(datetime.datetime.now(), f': dataframe created (size:{len(news_df.index)}), joining headings and paragraphs:')
+    #
+    # # add headings and corresponding paragraphs together (if confidence is high).
+    # # news_df = preprocessing.join_headings_w_paragraphs(news_df) # DEACTIVATED BECAUSE IT TAKES TOO LONG
+    #
+    # # drop unuseful data
+    # news_df = preprocessing.drop_short_lines(news_df)
+    #
+    # # preprocessing: lowercase,
+    #     # consolidations (long ſ -> s, ä ö ü ß -> ae oe ue ss),
+    #     # lemmata (OCR corrections),
+    #     # stopword removal,
+    #     # punctuation removal:
+    # news_df = preprocessing.main(news_df)
+    #
+    # # now it is possible, though extremely unlikely (but since we're working with millions of articles,
+    # # even extremely unlikely cases do occur from time to time) that an article existed which
+    # # - previously contained only numbers and punctuation - is now empty. This must be removed, or it could produce errors
+    # # I've also added code to ensure such errors don't occur anymore,
+    # # but who knows... you might run into a rare case I didn't account for, so just to be safe, drop short lines again:
+    # news_df = preprocessing.drop_short_lines(news_df)
+    #
+    # news_df.reset_index(drop=True, inplace=True)
+    #
+    #
+    # # save preliminary results
+    # news_df.to_csv(args.output_document_path + '_pre.csv', sep=';', index=False)
 
     # if you have run up to here before, # out the above (except the first three lines) and load df:
-    # news_df = pd.read_csv(args.output_document_path + '_pre.csv', sep=';')
+    news_df = pd.read_csv(args.output_document_path + '_pre.csv', sep=';')
 
     # ANALYSIS
 
