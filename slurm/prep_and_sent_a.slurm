@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=96
-#SBATCH --partition=lm_short
+#SBATCH --partition=lm_medium
 #SBATCH --mem=500G
 #SBATCH --job-name=sentiment_analysis
 #SBATCH --error=logs/job.%J.err
