@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --gres gpu:1
 #SBATCH --ntasks-per-node=32
-#SBATCH --partition=sgpu_short
+#SBATCH --partition=sgpu_devel
 #SBATCH --mem=200G
 #SBATCH --job-name=bertopic
 #SBATCH --error=logs/job.%J.err
