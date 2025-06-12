@@ -1,10 +1,16 @@
+print('code started running')
+import datetime
+print(datetime.datetime.now(), 'datetime imported. Importing pandas:')
 import pandas as pd
+print(datetime.datetime.now(), 'pandas imported. Importing read_data:')
 from read_data import get_args
+print(datetime.datetime.now(), 'read_data imported. Importing bertopic:')
 from bertopic import BERTopic
+print(datetime.datetime.now(), 'bertopic imported. Importing cuml.cluster HDBSCAN:')
 from cuml.cluster import HDBSCAN
+print(datetime.datetime.now(), 'HDBSCAN imported. Importing cuml.manifold UMAP:')
 from cuml.manifold import UMAP
 
-import datetime
 from sentence_transformers import SentenceTransformer
 
 from topic_model_src import make_wordcloud

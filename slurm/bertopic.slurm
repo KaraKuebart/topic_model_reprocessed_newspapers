@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --gres gpu:1
 #SBATCH --ntasks-per-node=64
-#SBATCH --partition=sgpu_short
+#SBATCH --partition=sgpu_devel
 #SBATCH --mem=400G
 #SBATCH --job-name=bertopic
 #SBATCH --error=logs/job.%J.err
@@ -17,4 +17,4 @@ cd /home/nkuebart_hpc/topic_model_reprocessed_newspapers/
 eval "$(conda shell.bash hook)"
 
 conda activate for_bert
-python src/topic_rnews/topic_model_bertopic.py -ldf output/third_pre.csv -leet 0.2 -out output/bert_third
+python src/topic_rnews/topic_model_bertopic.py -ldf output/third_pre.csv -out output/bert_third
