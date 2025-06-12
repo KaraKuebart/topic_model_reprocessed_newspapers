@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --gres gpu:1
-#SBATCH --ntasks-per-node=64
+#SBATCH --ntasks-per-node=32
 #SBATCH --partition=sgpu_devel
-#SBATCH --mem=400G
+#SBATCH --mem=200G
 #SBATCH --job-name=bertopic
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
