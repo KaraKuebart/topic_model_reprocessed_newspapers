@@ -41,8 +41,8 @@ def main(dataset:pd.DataFrame) -> pd.DataFrame:
 
     print(datetime.datetime.now(), ': Making lowercase ...')
     dataset['text'] = dataset['text'].str.lower()
-    print(datetime.datetime.now(), ': removing newlines with dash')
-    dataset = dataset.p_replace(to_replace="-\n", value="", regex=True)
+    # print(datetime.datetime.now(), ': removing newlines with dash')
+    # dataset = dataset.p_replace(to_replace="-\n", value="", regex=True)
     print(datetime.datetime.now(), ': removing newlines')
     dataset = dataset.p_replace(to_replace="\n", value=" ", regex=True)
 
