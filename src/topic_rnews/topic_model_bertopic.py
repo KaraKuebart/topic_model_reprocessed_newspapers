@@ -31,23 +31,22 @@ if __name__ == "__main__":
     topics, probs = topic_model.fit_transform(docs)
     print(datetime.datetime.now(), ': finished topic modeling')
     print(datetime.datetime.now(),
-          f': finished BERTopic model. Results are: TOPIC LENGTH: {len(topics)}, PROBS LENGTH: {len(probs)}, DOCS LENGTH: {len(docs)}\n TOPICS: ',
-          topics, '\n PROBS: ', probs, '\n\n\n')
-    print(datetime.datetime.now(), ': Model contents are: \n TOPICS: ', topic_model.topics_, '\n PROBABILITIES: ',
-          topic_model.probabilities_, '\n TOPIC SIZES: ', topic_model.topic_sizes_, '\n TOPIC MAPPER: ',
-          topic_model.topic_mapper_, '\n TOPIC_REPRESENTATIONS: ', topic_model.topic_representations_, '\n C_TF_IDF: ',
-          topic_model.c_tf_idf_, '\n TOPIC LABELS: ', topic_model.topic_labels_, '\n TOPIC_EMBEDDINGS: ',
-          topic_model.topic_embeddings_, '\n REPRESENTATIVE DOCS: ', topic_model.representative_docs_)
-    doc_ids = [index for index in range(len(docs))]
+          f': finished BERTopic model. Results are: TOPIC LENGTH: {len(topics)}, PROBS LENGTH: {len(probs)}, DOCS LENGTH: {len(docs)}')
     df = pd.DataFrame({ 'topic': topic_model.topics_})
-    df['topic_labels'] = topic_model.topic_labels_
-    df['topic_representations'] = topic_model.topic_representations_
+    df['probabilites'] = topic_model.probabilities_
     df['docs'] = docs
+    df['topic_sizes'] = topic_model.topic_sizes_
+    df['topic mapper'] = topic_model.topic_mapper_
+    df['topic_representations'] = topic_model.topic_representations_
+    df['c_tf_idf'] = topic_model.c_tf_idf_
+    df['topic_labels'] = topic_model.topic_labels_
+    df['topic embeddings'] = topic_model.topic_embedding_
+    df['representative_docs'] = topic_model.representative_docs_
     df['topics as put out'] = topics
-    df.to_csv(args.output_document_path + 'bertopic_test.csv', sep=';', index=False)
+
+    df.to_csv(args.output_document_path + '_bertopic_test.csv', sep=';', index=False)
     news_df['BERTopic'] = pd.Series(topics)
     news_df['BERTopic_prob'] = pd.Series(probs)
     news_df.to_csv(args.output_document_path + '_bertopic_res.csv', sep=';', index=False)
 
     # for topic_nr in topic_model.topics_:
-
