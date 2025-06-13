@@ -40,7 +40,7 @@ if __name__ == "__main__":
     df['topic_representations'] = topic_model.topic_representations_
     # df['c_tf_idf'] = topic_model.c_tf_idf_
     # df['topic_labels'] = topic_model.topic_labels_
-    df['topic embeddings'] = topic_model.topic_embedding_
+    df['topic embeddings'] = topic_model.topic_embeddings_
     df['representative_docs'] = topic_model.representative_docs_
     df['topics as put out'] = topics
 
