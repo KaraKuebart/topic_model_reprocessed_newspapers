@@ -35,7 +35,8 @@ if __name__ == "__main__":
     print(datetime.datetime.now(), ': saving model')
     topic_model.save(args.output_document_path + '.pkl', serialization='pickle')
     print(datetime.datetime.now(), ': exporting to dataframe')
-    df = pd.DataFrame({ 'topic_ids': [i for i in range(-1, len(topic_model.topic_sizes_))])
+    topic_ids = [i for i in range(-1, len(topic_model.topic_sizes_))]
+    df = pd.DataFrame({'topic_ids': topic_ids})
     # df['probabilites'] = topic_model.probabilities_
     # df['docs'] = docs
     df['topic_sizes'] = topic_model.topic_sizes_
