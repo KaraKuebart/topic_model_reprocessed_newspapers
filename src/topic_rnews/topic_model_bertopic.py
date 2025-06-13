@@ -48,7 +48,7 @@ if __name__ == "__main__":
     df['representative_docs'] = topic_model.representative_docs_
     # df['topics as put out'] = topics
 
-    df.to_csv(args.output_document_path + '_bertopic_test.csv', sep=';', index=False)
+    df.to_csv(args.output_document_path + '_bertopic_topics.csv', sep=';', index=False)
     news_df['BERTopic'] = pd.Series(topics)
     news_df['BERTopic_prob'] = pd.Series(probs)
     news_df.to_csv(args.output_document_path + '_bertopic_res.csv', sep=';', index=False)
