@@ -1,14 +1,8 @@
-print('code started running')
 import datetime
-print(datetime.datetime.now(), 'datetime imported. Importing pandas:')
 import pandas as pd
-print(datetime.datetime.now(), 'pandas imported. Importing read_data:')
 from read_data import get_args
-print(datetime.datetime.now(), 'read_data imported. Importing bertopic:')
 from bertopic import BERTopic
-print(datetime.datetime.now(), 'bertopic imported. Importing cuml.cluster HDBSCAN:')
 from cuml.cluster import HDBSCAN
-print(datetime.datetime.now(), 'HDBSCAN imported. Importing cuml.manifold UMAP:')
 from cuml.manifold import UMAP
 
 from sentence_transformers import SentenceTransformer
@@ -23,7 +17,7 @@ if __name__ == "__main__":
     # import dataframe
     print(datetime.datetime.now(), ': import dataframe')
     news_df = pd.read_csv(args.load_dataframe, sep=';')
-
+    print(datetime.datetime.now(), ': generating embeddings')
     embedding_model = SentenceTransformer("distiluse-base-multilingual-cased-v2")
     embedding_model.encode(news_df["text"].astype(str), show_progress_bar=True)
     print(datetime.datetime.now(), ': define parameters')
@@ -41,7 +35,7 @@ if __name__ == "__main__":
           topics, '\n PROBS: ', probs, '\n\n\n')
     print(datetime.datetime.now(), ': Model contents are: \n TOPICS: ', topic_model.topics_, '\n PROBABILITIES: ',
           topic_model.probabilities_, '\n TOPIC SIZES: ', topic_model.topic_sizes_, '\n TOPIC MAPPER: ',
-          topic_model.topic_mapper_, '\n TOPIC_REPRESENTATIONS: ', topic_model.topic_representations, '\n C_TF_IDF: ',
+          topic_model.topic_mapper_, '\n TOPIC_REPRESENTATIONS: ', topic_model.topic_representations_, '\n C_TF_IDF: ',
           topic_model.c_tf_idf_, '\n TOPIC LABELS: ', topic_model.topic_labels_, '\n TOPIC_EMBEDDINGS: ',
           topic_model.topic_embeddings_, '\n REPRESENTATIVE DOCS: ', topic_model.representative_docs_)
     doc_ids = [index for index in range(len(docs))]
