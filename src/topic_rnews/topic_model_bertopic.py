@@ -49,7 +49,7 @@ if __name__ == "__main__":
     news_df['BERTopic_prob'] = pd.Series(probs)
     news_df.to_csv(args.output_document_path + '_bertopic_res.csv', sep=';', index=False)
 
-    for topic_id, topic in enumerate(topic_model.topic_representations_):
+    for topic, topic_id in enumerate(topic_model.topic_representations_):
         topic_dict = {}
         for word in topic:
             topic_dict[word[0]] = word[1]
