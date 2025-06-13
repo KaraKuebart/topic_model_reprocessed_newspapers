@@ -11,7 +11,7 @@ from cuml.cluster import HDBSCAN
 print(datetime.datetime.now(), 'HDBSCAN imported. Importing cuml.manifold UMAP:')
 from cuml.manifold import UMAP
 
-# from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer
 
 from topic_model_src import make_wordcloud
 
@@ -24,12 +24,12 @@ if __name__ == "__main__":
     print(datetime.datetime.now(), ': import dataframe')
     news_df = pd.read_csv(args.load_dataframe, sep=';')
 
-    # embedding_model = SentenceTransformer("distiluse-base-multilingual-cased-v2")
-    # embeddings = embedding_model.encode(news_df["text"].astype(str), show_progress_bar=True)
+    embedding_model = SentenceTransformer("distiluse-base-multilingual-cased-v2")
+    embedding_model.encode(news_df["text"].astype(str), show_progress_bar=True)
     print(datetime.datetime.now(), ': define parameters')
     umap_model = UMAP(n_components=5, n_neighbors=15, min_dist=0.0, metric='cosine', random_state=42)
     hdbscan_model = HDBSCAN(min_samples=10, gen_min_span_tree=True, prediction_data=True)
-    topic_model = BERTopic(embedding_model = "distiluse-base-multilingual-cased-v2", umap_model=umap_model, hdbscan_model=hdbscan_model)
+    topic_model = BERTopic(embedding_model = embedding_model, umap_model=umap_model, hdbscan_model=hdbscan_model)
     news_df['text'] = news_df['text'].astype(str)
     docs = news_df['text'].tolist()
 
