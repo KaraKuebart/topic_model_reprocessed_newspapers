@@ -32,17 +32,20 @@ if __name__ == "__main__":
     print(datetime.datetime.now(), ': finished topic modeling')
     print(datetime.datetime.now(),
           f': finished BERTopic model. Results are: TOPIC LENGTH: {len(topics)}, PROBS LENGTH: {len(probs)}, DOCS LENGTH: {len(docs)}')
-    df = pd.DataFrame({ 'topic': topic_model.topics_})
-    df['probabilites'] = topic_model.probabilities_
-    df['docs'] = docs
+    print(datetime.datetime.now(), ': saving model')
+    topic_model.save(args.output_document_path + '.pkl', serialization='pickle')
+    print(datetime.datetime.now(), ': exporting to dataframe')
+    df = pd.DataFrame({ 'topic_ids': [i for i in range(-1, len(topic_model.topic_sizes_))])
+    # df['probabilites'] = topic_model.probabilities_
+    # df['docs'] = docs
     df['topic_sizes'] = topic_model.topic_sizes_
     df['topic mapper'] = topic_model.topic_mapper_
     df['topic_representations'] = topic_model.topic_representations_
     # df['c_tf_idf'] = topic_model.c_tf_idf_
     # df['topic_labels'] = topic_model.topic_labels_
     # df['topic embeddings'] = topic_model.topic_embeddings_
-    # df['representative_docs'] = topic_model.representative_docs_
-    df['topics as put out'] = topics
+    df['representative_docs'] = topic_model.representative_docs_
+    # df['topics as put out'] = topics
 
     df.to_csv(args.output_document_path + '_bertopic_test.csv', sep=';', index=False)
     news_df['BERTopic'] = pd.Series(topics)
