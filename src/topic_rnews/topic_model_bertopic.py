@@ -38,8 +38,8 @@ if __name__ == "__main__":
     df['topic_sizes'] = topic_model.topic_sizes_
     df['topic mapper'] = topic_model.topic_mapper_
     df['topic_representations'] = topic_model.topic_representations_
-    df['c_tf_idf'] = topic_model.c_tf_idf_
-    df['topic_labels'] = topic_model.topic_labels_
+    # df['c_tf_idf'] = topic_model.c_tf_idf_
+    # df['topic_labels'] = topic_model.topic_labels_
     df['topic embeddings'] = topic_model.topic_embedding_
     df['representative_docs'] = topic_model.representative_docs_
     df['topics as put out'] = topics
@@ -49,4 +49,8 @@ if __name__ == "__main__":
     news_df['BERTopic_prob'] = pd.Series(probs)
     news_df.to_csv(args.output_document_path + '_bertopic_res.csv', sep=';', index=False)
 
-    # for topic_nr in topic_model.topics_:
+    for topic_id, topic in enumerate(topic_model.topic_representations_):
+        topic_dict = {}
+        for word in topic:
+            topic_dict[word[0]] = word[1]
+        make_wordcloud('BERTopic', topic_id, topic_dict)
