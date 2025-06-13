@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # run tomoto LDAModel
     news_df, mdl, num_topics = tomoto_lda(news_df)
     # save results file
-    news_df.to_csv(args.output_document_path + '_tomoto_res.csv', index=False)
+    news_df.to_csv(args.output_document_path + '_tomoto_res.csv', sep=';', index=False)
     vocabulary = mdl.vocabs
     words_importance_dict = {}
     print(f'{datetime.datetime.now()}: creating word clouds for each topic')
