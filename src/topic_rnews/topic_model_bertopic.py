@@ -34,24 +34,19 @@ if __name__ == "__main__":
           f': finished BERTopic model. Results are: TOPIC LENGTH: {len(topics)}, PROBS LENGTH: {len(probs)}, DOCS LENGTH: {len(docs)}')
     print(datetime.datetime.now(), ': saving model')
     topic_model.save(args.output_document_path + '.pkl', serialization='pickle')
-    print(datetime.datetime.now(), ': exporting to dataframe')
+    print(datetime.datetime.now(), ': exporting to dataframes (one for information on topics found, the other is the updated dataset with topic distribution)')
     topic_ids = [i for i in range(-1, len(topic_model.topic_sizes_))]
     df = pd.DataFrame({'topic_ids': topic_ids})
-    # df['probabilites'] = topic_model.probabilities_
-    # df['docs'] = docs
     df['topic_sizes'] = topic_model.topic_sizes_
     df['topic mapper'] = topic_model.topic_mapper_
     df['topic_representations'] = topic_model.topic_representations_
-    # df['c_tf_idf'] = topic_model.c_tf_idf_
-    # df['topic_labels'] = topic_model.topic_labels_
-    # df['topic embeddings'] = topic_model.topic_embeddings_
     df['representative_docs'] = topic_model.representative_docs_
-    # df['topics as put out'] = topics
 
     df.to_csv(args.output_document_path + '_bertopic_topics.csv', sep=';', index=False)
     news_df['BERTopic'] = pd.Series(topics)
     news_df['BERTopic_prob'] = pd.Series(probs)
     news_df.to_csv(args.output_document_path + '_bertopic_res.csv', sep=';', index=False)
+    print(datetime.datetime.now(), ': dataframes saved. Generating wordclouds')
     # print(datetime.datetime.now(), topic_model.topic_representations_)
     for topic_id in range(-1, len(topic_model.topic_representations_) - 1):
         topic = topic_model.topic_representations_[topic_id]
