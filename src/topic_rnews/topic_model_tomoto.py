@@ -12,7 +12,7 @@ from tqdm import tqdm
 def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='tomotopy_lda'):
     num_docs = dataframe.shape[0]
     if num_topics is None:
-        num_topics = round(np.power(num_docs, 5/12))
+        num_topics = round(np.power(num_docs, 1/6))
     mdl = tp.LDAModel(min_cf = int(np.power(num_docs, 1/3)), rm_top=int(np.log(num_docs)*20), k=num_topics, seed=42)
     print(datetime.datetime.now(), ': importing data into tomoto_lda model')
 
