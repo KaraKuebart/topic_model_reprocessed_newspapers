@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=96
+#SBATCH --ntasks-per-node=192
 #SBATCH --partition=lm_short
 #SBATCH --mem=500G
 #SBATCH --job-name=leet
@@ -19,4 +19,4 @@ eval "$(conda shell.bash hook)"
 conda activate for_gensim
 
 export PYTHONPATH=${PYTHONPATH}:
-python src/topic_rnews/topic_model_leet.py -ldf output/12th_pre.csv -leet 0.2 -out output/leet_12th
+python src/topic_rnews/topic_model_leet.py -ldf output/12th_pre.csv -leet 0.05 -out output/leet_12th

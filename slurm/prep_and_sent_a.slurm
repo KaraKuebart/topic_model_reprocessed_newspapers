@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=96
+#SBATCH --ntasks-per-node=192
 #SBATCH --partition=lm_medium
 #SBATCH --mem=500G
 #SBATCH --job-name=sentiment_analysis
