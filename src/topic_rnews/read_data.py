@@ -53,7 +53,7 @@ def get_args() -> argparse.Namespace:
         "--lda-numtopics",
         "-lda",
         type=int,
-        default=50,
+        default=None,
         help="number of topics for LDA",
     )
     parser.add_argument(

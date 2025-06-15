@@ -2,6 +2,7 @@ import gensim
 import spacy
 from gensim import corpora
 from gensim.models import TfidfModel
+import numpy as np
 
 import read_data
 import pandas as pd
@@ -9,8 +10,10 @@ from tqdm import tqdm
 import datetime
 
 
-def gensim_lda(data:pd.DataFrame, num_topics:int=200) -> pd.DataFrame:
-
+def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
+    num_docs = data.shape[0]
+    if num_topics is None:
+        num_topics = round(np.power(num_docs, 1 / 6))
     text_data = data['text'].tolist()
     lemmatized_texts = lemmatization(text_data)
     data_words = gen_words(lemmatized_texts)
