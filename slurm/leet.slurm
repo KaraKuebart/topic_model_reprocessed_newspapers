@@ -1,14 +1,14 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=96
-#SBATCH --partition=lm_long
+#SBATCH --partition=lm_short
 #SBATCH --mem=500G
 #SBATCH --job-name=leet
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de
 #SBATCH --mail-type=ALL
-#SBATCH --time 5-00:00:00
+#SBATCH --time 08:00:00
 
 ln -sf logs/job.$SLURM_JOB_ID.err latest.err
 ln -sf logs/job.$SLURM_JOB_ID.out latest.out
