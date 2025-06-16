@@ -17,4 +17,4 @@ cd /home/nkuebart_hpc/topic_model_reprocessed_newspapers/
 eval "$(conda shell.bash hook)"
 
 conda activate for_bert
-python src/topic_rnews/topic_model_bertopic.py -ldf output/third_pre.csv -out output/bert_third_auto
+python src/topic_rnews/topic_model_bertopic.py -ldf output/6th_pre.csv -out output/bert_6th_auto
