@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     print(datetime.datetime.now(), ': define parameters')
     #  NOTICE adapt the nr_topics parameter as needed.
-    umap_model = UMAP(n_components=5, n_neighbors=15, min_dist=0.0, nr_topics=1140, metric='cosine', random_state=42)
+    umap_model = UMAP(n_components=5, n_neighbors=15, min_dist=0.0, nr_topics="auto", metric='cosine', random_state=42)
     hdbscan_model = HDBSCAN(min_samples=10, gen_min_span_tree=True, prediction_data=True)
     topic_model = BERTopic(embedding_model = embedding_model, umap_model=umap_model, hdbscan_model=hdbscan_model)
     news_df['text'] = news_df['text'].astype(str)
