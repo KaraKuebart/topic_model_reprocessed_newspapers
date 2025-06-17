@@ -1,13 +1,12 @@
 #!/bin/bash
-#SBATCH --ntasks-per-node=1
+#SBATCH --ntasks-per-node=4
 #SBATCH --partition=lm_long
-#SBATCH --mem=500G
+#SBATCH --mem=300G
 #SBATCH --job-name=gensim
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de
 #SBATCH --mail-type=ALL
-#SBATCH --time 5-00:00:00
 
 ln -sf logs/job.$SLURM_JOB_ID.err latest.err
 ln -sf logs/job.$SLURM_JOB_ID.out latest.out

@@ -45,29 +45,19 @@ def second_leet_topic(df: pd.DataFrame, topic_number) -> pd.DataFrame:
     return df_red
 
 
-if __name__ == "__main__":
-    args = read_data.get_args()
-
-    dataframe = pd.read_csv(args.load_dataframe, sep=";", on_bad_lines='warn', encoding_errors="ignore")
-    dataframe = dataframe.astype(str)
-    print(f'{datetime.datetime.now()}: beginning leet topic model')
-    dataframe = run_leet_topic(dataframe, args.leet_distance)
-    dataframe.to_csv(args.output_document_path + '_leet_res.csv', sep=';', index=False)
-
+def leet_post_processing(df: pd.DataFrame, arguments) -> None:
+    print(datetime.datetime.now(), ': starting post processing. Saving Dataframe')
+    df.to_csv(arguments.output_document_path + '_leet_res.csv', sep=';', index=False)
     print(f'{datetime.datetime.now()}: creating scatter plots')
-    dataframe.sort_values(['path', 'region'], inplace=True)
-    dataframe.reset_index(drop=True, inplace=True)
-
-    topic_scatterplot(dataframe, 'leet_topic_scatter')
-
-    topic_dict = count_topic_frequency(dataframe['leet_labels'])
-
+    df.sort_values(['path', 'region'], inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    topic_scatterplot(df, 'leet_topic_scatter')
+    topic_dict = count_topic_frequency(df['leet_labels'])
     most_frequent_topics = dict(list(topic_dict.items())[1:101])
-
     print(f'{datetime.datetime.now()}: creating word clouds for each topic')
     for key in tqdm(most_frequent_topics.keys()):
-       try:
-            temp_df = dataframe.loc[dataframe['leet_labels'] == key]
+        try:
+            temp_df = df.loc[df['leet_labels'] == key]
             temp_df.to_csv(f"output/leet_topic_{key}.csv", sep=';', index=False)
             textlist = temp_df['text'].tolist()
             texts_string = '\n'.join(textlist)
@@ -79,9 +69,18 @@ if __name__ == "__main__":
                 word_frequencies[item] = wordlist.count(item)
 
             make_wordcloud('leet', key, word_frequencies)
-       except Exception as e:
-           print(" an error occurred: ", e)
+        except Exception as e:
+            print(" an error occurred: ", e)
     most_important_topics_list = list(most_frequent_topics.keys())
-    reduced_df = dataframe.loc[dataframe['leet_labels'].isin(most_important_topics_list)]
-
+    reduced_df = df.loc[df['leet_labels'].isin(most_important_topics_list)]
     topic_scatterplot(reduced_df, 'leet_topic_scatter_reduced')
+
+
+if __name__ == "__main__":
+    args = read_data.get_args()
+
+    dataframe = pd.read_csv(args.load_dataframe, sep=";", on_bad_lines='warn', encoding_errors="ignore")
+    dataframe = dataframe.astype(str)
+    print(f'{datetime.datetime.now()}: beginning leet topic model')
+    dataframe = run_leet_topic(dataframe, args.leet_distance)
+    leet_post_processing(dataframe, args)
