@@ -14,6 +14,7 @@ if __name__ == "__main__":
 
     print(datetime.datetime.now(), ': raw dataframe loaded. dropping short lines')
     dataframe = drop_short_lines(dataframe)
+    dataframe.reset_index(drop=True, inplace=True)
 
     print(f'{datetime.datetime.now()}: beginning leet topic model')
     dataframe = run_leet_topic(dataframe, args.leet_distance)
