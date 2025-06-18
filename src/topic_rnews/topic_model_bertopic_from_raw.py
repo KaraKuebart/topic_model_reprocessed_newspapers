@@ -21,6 +21,7 @@ if __name__ == "__main__":
 
     print(datetime.datetime.now(), ': raw dataframe loaded. dropping short lines')
     news_df = drop_short_lines(news_df)
+    news_df.reset_index(drop=True, inplace=True)
 
     print(datetime.datetime.now(), ': short lines dropped. generating embeddings')
     embedding_model = SentenceTransformer("distiluse-base-multilingual-cased-v2")
