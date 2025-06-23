@@ -1,7 +1,7 @@
 import pandas as pd
 from collections import Counter
 import pickle
-import tqdm
+from tqdm import tqdm
 import datetime
 
 from topic_model_src import make_wordcloud
@@ -26,6 +26,30 @@ def top_words_by_key(input_dict, top_n=20):
 
 if __name__ == '__main__':
 
+    # Gensim
+    print(datetime.datetime.now(), ': importing Gensim LDA results')
+    gensim_df = pd.read_csv(
+        '/home/kara/Desktop/köz_results/topic_model_reprocessed_newspapers/analysis_results/gensim/gensim_12th_gensim_res.csv',
+        sep=';')
+    dict_100 = export_most_common(gensim_df, '')
+    print(dict_100)
+    gensim_top_100_df = pd.DataFrame(columns=['topic', 'frequency'])
+    for key, value in dict_100.items():
+        gensim_top_100_df.loc[len(gensim_top_100_df)] = [key, value]
+    gensim_top_100_df.set_index('topic', inplace=True)
+    gensim_top_100_df.insert(loc=1, column='representative_words', value='')
+    for topic in dict_100.keys():
+        for i in gensim_df.index:
+            if gensim_df.at[i, 'Main Topic'] == topic:
+                gensim_top_100_df.loc[topic, 'representative_words'] = gensim_df.at[i, 'Main Keywords']
+                break
+
+
+    print(gensim_top_100_df)
+    gensim_top_100_df.to_csv('/home/kara/Desktop/köz_results/topic_model_reprocessed_newspapers/analysis_results/gensim_top_100.csv', sep=';', index=True)
+    del gensim_top_100_df
+    del gensim_df
+    print(datetime.datetime.now(), ': Exported Gensim results. Importing tomotopy LDA results')
 
     # tomotopy
     print(datetime.datetime.now(), ': importing tomotopy')
