@@ -3,7 +3,7 @@
 #SBATCH --ntasks-per-node=96
 #SBATCH --partition=lm_medium
 #SBATCH --mem=500G
-#SBATCH --job-name=leet
+#SBATCH --job-name=leet_raw
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de

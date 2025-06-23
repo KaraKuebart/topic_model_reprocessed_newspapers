@@ -9,7 +9,7 @@ if __name__ == "__main__":
     args = read_data.get_args()
 
     print(datetime.datetime.now(), ': importing dataframe')
-    dataframe = pd.read_csv(args.load_dataframe, sep=";", on_bad_lines='warn', encoding_errors="ignore")
+    dataframe = pd.read_csv(args.load_dataframe, sep=";", on_bad_lines='warn', encoding_errors="replace")
     dataframe = dataframe.astype(str)
 
     print(datetime.datetime.now(), ': raw dataframe loaded. dropping short lines')
