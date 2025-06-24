@@ -9,11 +9,12 @@ import pandas as pd
 from tqdm import tqdm
 import datetime
 
+from topic_model_src import make_wordcloud
 
 def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
     num_docs = data.shape[0]
     if num_topics is None:
-        num_topics = round(np.power(num_docs, 1 / 6))
+        num_topics = round(np.power(num_docs, 5 / 12))
     text_data = data['text'].tolist()
     lemmatized_texts = lemmatization(text_data)
     data_words = gen_words(lemmatized_texts)
@@ -44,7 +45,7 @@ def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
     lda_model.show_topics(
         num_topics=5)  # number of topics to show must not be larger thant the number of topics generated
 
-    data = export_results(corpus, data, lda_model, texts)
+    data = export_results(corpus, data, lda_model, texts, num_topics)
 
     return data
 
@@ -84,7 +85,7 @@ def make_bigrams_trigrams(texts_in):
     return trigrams_out
 
 
-def export_results(corpus, data, lda_model, texts):
+def export_results(corpus, data, lda_model, texts, num_topics):
 
     main_topic = {}
     second_topic = {}
@@ -96,6 +97,18 @@ def export_results(corpus, data, lda_model, texts):
     second_keywords = {}
     third_keywords = {}
     text_snippets = {}
+
+    topics_df = pd.DataFrame(columns=['topic_id', 'typical_words', 'words_dict'])
+    topics_df['topic_id'] = range(num_topics)
+    topics_df.set_index('topic_id', inplace=True)
+    for topic_id in tqdm(range(num_topics)):
+        words_dict, words_list = export_topic(lda_model, topic_id)
+        topics_df.loc[topic_id, 'words_dict'] = str(words_dict)
+        topics_df.loc[topic_id, 'typical_words'] = ', '.join(words_list)
+
+    topics_df.to_csv(args.output_document_path + '_gensim_topics.csv', sep=';', index=False)
+
+
 
     for i, topic_list in tqdm(enumerate(lda_model[corpus])):
         topic_list = sorted(topic_list, key=lambda x: (x[1]), reverse=True)
@@ -153,10 +166,18 @@ def reduce_corpus(corpus, id2word, tfidf):
 
     return corpus
 
+def export_topic(ldamodel, topic):
+    wp = ldamodel.show_topic(topic)
+    words_dict = {}
+    for word in wp:
+        words_dict[word[0]] = word[1]
+    make_wordcloud('gensim', topic, words_dict)
+    words_list = words_dict.keys()
+    return words_dict, words_list
 
 def find_topics(ldamodel, topic):
     wp = ldamodel.show_topic(topic[0])
-    keywords = ", ".join([word for word, prop in wp[:5]])
+    keywords = ", ".join([word for word, prop in wp[:15]])
     topic_num = int(topic[0])
     topic_percentage = round(topic[1], 4)
     return keywords, topic_num, topic_percentage
