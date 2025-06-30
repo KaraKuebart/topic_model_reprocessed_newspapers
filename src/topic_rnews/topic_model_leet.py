@@ -58,7 +58,7 @@ def leet_post_processing(df: pd.DataFrame, arguments) -> None:
     for key in tqdm(most_frequent_topics.keys()):
         try:
             temp_df = df.loc[df['leet_labels'] == key]
-            temp_df.to_csv(f"output/leet_topic_{key}.csv", sep=';', index=False)
+            # temp_df.to_csv(f"output/leet_topic_{key}.csv", sep=';', index=False)
             textlist = temp_df['text'].tolist()
             texts_string = '\n'.join(textlist)
             texts_string.replace('\n', ' ')
