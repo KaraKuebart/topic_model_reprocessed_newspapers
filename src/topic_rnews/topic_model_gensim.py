@@ -15,23 +15,32 @@ def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
     num_docs = data.shape[0]
     if num_topics is None:
         num_topics = round(np.power(num_docs, 5 / 12))
+    print(f'{datetime.datetime.now()}: creating data list')
     text_data = data['text'].tolist()
+    print(f'{datetime.datetime.now()}: lemmatizing')
     lemmatized_texts = lemmatization(text_data)
+    print(f'{datetime.datetime.now()}: using gensim.utils.simple_preprocess')
     data_words = gen_words(lemmatized_texts)
 
     # BIGRAMS AND TRIGRAMS
+    print(f'{datetime.datetime.now()}: making bigrams and trigrams')
     data_bigrams_trigrams = make_bigrams_trigrams(data_words)
 
     # TF-IDF REMOVAL
+    print(f'{datetime.datetime.now()}: creating dictionary')
     id2word = corpora.Dictionary(data_bigrams_trigrams)
     texts = data_bigrams_trigrams
+    print(f'{datetime.datetime.now()}: id2word')
     corpus = [id2word.doc2bow(text) for text in texts]
+    print(f'{datetime.datetime.now()}: creating tfidf')
     tfidf = TfidfModel(corpus, id2word=id2word)
 
     # reduce corpus
+    print(f'{datetime.datetime.now()}: reducing corpus by tfidf')
     corpus = reduce_corpus(corpus, id2word, tfidf)
 
     # lda_model
+    print(f'{datetime.datetime.now()}: running LDA model')
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus[:-1],
                                                 id2word=id2word,
                                                 num_topics=num_topics,  # enter number of topics here
@@ -45,6 +54,7 @@ def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
     lda_model.show_topics(
         num_topics=5)  # number of topics to show must not be larger thant the number of topics generated
 
+    print(f'{datetime.datetime.now()}: exporting results')
     data = export_results(corpus, data, lda_model, texts, num_topics)
 
     return data
