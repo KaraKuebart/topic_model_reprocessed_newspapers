@@ -155,10 +155,12 @@ def export_results(corpus, data, lda_model, texts, num_topics):
 
 
 def reduce_corpus(corpus, id2word, tfidf):
+    print('starting reduction')
     low_value = 0.03
     words = []
     words_missing_in_tfidf = []
     for i in tqdm(range(0, len(corpus))):
+        print(f'{datetime.datetime.now()}: iteration {i}')
         bow = corpus[i]
         # low_value_words = [] #reinitialize to be safe. You can skip this.
         tfidf_ids = [i for i, value in tfidf[bow]]
@@ -173,7 +175,7 @@ def reduce_corpus(corpus, id2word, tfidf):
 
         new_bow = [b for b in bow if b[0] not in drops]
         corpus[i] = new_bow
-
+    print(f'{datetime.datetime.now()}: finished reduction')
     return corpus
 
 def export_topic(ldamodel, topic):
