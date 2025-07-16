@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --ntasks-per-node=4
-#SBATCH --partition=lm_long
-#SBATCH --mem=300G
+#SBATCH --partition=vlm_long
+#SBATCH --mem=3800G
 #SBATCH --job-name=gensim
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out

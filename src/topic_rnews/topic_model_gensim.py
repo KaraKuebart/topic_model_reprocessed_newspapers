@@ -26,6 +26,10 @@ def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
     print(f'{datetime.datetime.now()}: making bigrams and trigrams')
     data_bigrams_trigrams = make_bigrams_trigrams(data_words)
 
+    print(f'{datetime.datetime.now()}: deleting no longer needed data')
+    del lemmatized_texts
+    del text_data
+
     # TF-IDF REMOVAL
     print(f'{datetime.datetime.now()}: creating dictionary')
     id2word = corpora.Dictionary(data_bigrams_trigrams)
@@ -34,6 +38,9 @@ def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
     corpus = [id2word.doc2bow(text) for text in texts]
     print(f'{datetime.datetime.now()}: creating tfidf')
     tfidf = TfidfModel(corpus, id2word=id2word)
+
+    print(f'{datetime.datetime.now()}: deleting no longer needed data')
+    del data_words
 
     # reduce corpus
     print(f'{datetime.datetime.now()}: reducing corpus by tfidf')
@@ -160,7 +167,6 @@ def reduce_corpus(corpus, id2word, tfidf):
     words = []
     words_missing_in_tfidf = []
     for i in tqdm(range(0, len(corpus))):
-        print(f'{datetime.datetime.now()}: iteration {i}')
         bow = corpus[i]
         # low_value_words = [] #reinitialize to be safe. You can skip this.
         tfidf_ids = [i for i, value in tfidf[bow]]
