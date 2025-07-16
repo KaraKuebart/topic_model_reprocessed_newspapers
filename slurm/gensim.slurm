@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --ntasks-per-node=4
+#SBATCH --ntasks-per-node=96
 #SBATCH --partition=vlm_long
 #SBATCH --mem=3800G
 #SBATCH --job-name=gensim
