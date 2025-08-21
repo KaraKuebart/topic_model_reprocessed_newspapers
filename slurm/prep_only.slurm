@@ -19,4 +19,4 @@ eval "$(conda shell.bash hook)"
 conda activate for_gensim
 
 export PYTHONPATH=${PYTHONPATH}:
-python src/topic_rnews/preparation_and_sentiment_analysis.py -n-cpu 48 -d /home/nkuebart_hpc/npzs/ -imp 0 50000 -od output/prep_raw.csv -out output/prep
+python src/topic_rnews/preparation_and_sentiment_analysis.py -n-cpu 48 -d /home/nkuebart_hpc/npzs/ -imp 35433 70866 -od output/2nd_12th_raw.csv -out output/2nd_12th
