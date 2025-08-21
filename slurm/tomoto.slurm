@@ -19,4 +19,4 @@ eval "$(conda shell.bash hook)"
 conda activate for_gensim
 
 export PYTHONPATH=${PYTHONPATH}:
-python src/topic_rnews/topic_model_tomoto.py -ldf output/prep_pre.csv -out output/tomoto
+python src/topic_rnews/topic_model_tomoto.py -ldf output/6th_pre.csv -out output/tomoto_6th
