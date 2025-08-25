@@ -1,9 +1,10 @@
-import read_data
-import pandas as pd
 import datetime
 
+import pandas as pd
+
+import read_data
 from preprocessing import drop_short_lines
-from topic_model_leet import run_leet_topic, count_topic_frequency, topic_scatterplot, leet_post_processing
+from topic_model_leet import run_leet_topic, leet_post_processing
 
 if __name__ == "__main__":
     args = read_data.get_args()

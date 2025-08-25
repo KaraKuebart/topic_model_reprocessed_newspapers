@@ -1,9 +1,8 @@
+import datetime
 import string
-from tqdm import tqdm
 
 import pandas as pd
-import datetime
-
+from tqdm import tqdm
 
 from resources.pythonic_resources import stopwords, consolidations, lemmata
 

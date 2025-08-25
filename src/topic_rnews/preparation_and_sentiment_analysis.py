@@ -1,15 +1,9 @@
-import read_data
-import preprocessing
-import sentiment_analysis_src
-from parallel_pandas import ParallelPandas
 import datetime
-import pandas as pd
-import matplotlib.pyplot as plt
-from wordcloud import WordCloud
-from tqdm import tqdm
-import pickle
-import numpy as np
 
+from parallel_pandas import ParallelPandas
+
+import preprocessing
+import read_data
 
 if __name__ == "__main__":
     # initialize parallel pandas

@@ -1,10 +1,9 @@
-import pandas as pd
-from collections import Counter
-import pickle
-from tqdm import tqdm
 import datetime
+import pickle
+from collections import Counter
 
-from topic_model_src import make_wordcloud
+import pandas as pd
+
 
 def export_most_common(df: pd.DataFrame, topicnr_column:str):
     topics_list = df[topicnr_column].tolist()
@@ -15,12 +14,12 @@ def export_most_common(df: pd.DataFrame, topicnr_column:str):
 
 def top_words_by_key(input_dict, top_n=20):
     output_dict = {}
-    for key, string_list in input_dict.items():
+    for local_key, string_list in input_dict.items():
         # Split each string into words and flatten the list
         words = [word for s in string_list for word in s.split()]
         # Count word frequency and get top N
         most_common = [word for word, _ in Counter(words).most_common(top_n)]
-        output_dict[key] = most_common
+        output_dict[local_key] = most_common
     return output_dict
 
 

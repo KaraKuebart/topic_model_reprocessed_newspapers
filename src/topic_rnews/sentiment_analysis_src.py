@@ -1,6 +1,7 @@
-import pandas as pd
 import datetime
 import time
+
+import pandas as pd
 
 lexicon = pd.read_csv("resources/sentiment_lexicon.csv", sep=";")
 lexicon['words'] = lexicon['words'].astype(str)

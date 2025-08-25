@@ -1,20 +1,21 @@
+import datetime
+
+import pandas as pd
 from leet_topic import leet_topic
 from matplotlib import pyplot as plt
+from tqdm import tqdm
 
 import read_data
 from topic_model_src import make_wordcloud
-import pandas as pd
-from tqdm import tqdm
-import datetime
 
 
-def run_leet_topic(dataframe: pd.DataFrame, max_distance: float=0.5) -> pd.DataFrame:
-    new_df, topic_data = leet_topic.LeetTopic(dataframe,
-                                               document_field="text",
-                                               html_filename=f"output/newspaper_leet_topic_{max_distance}.html",
-                                               extra_fields=["hdbscan_labels"],
-                                               spacy_model="de_core_news_sm",
-                                               max_distance=max_distance)
+def run_leet_topic(local_dataframe: pd.DataFrame, max_distance: float=0.5) -> pd.DataFrame:
+    new_df, topic_data = leet_topic.LeetTopic(local_dataframe,
+                                              document_field="text",
+                                              html_filename=f"output/newspaper_leet_topic_{max_distance}.html",
+                                              extra_fields=["hdbscan_labels"],
+                                              spacy_model="de_core_news_sm",
+                                              max_distance=max_distance)
     return new_df
 
 
@@ -83,4 +84,5 @@ if __name__ == "__main__":
     dataframe = dataframe.astype(str)
     print(f'{datetime.datetime.now()}: beginning leet topic model')
     dataframe = run_leet_topic(dataframe, args.leet_distance)
+    print(f'{datetime.datetime.now()}: finished model calculation.')
     leet_post_processing(dataframe, args)

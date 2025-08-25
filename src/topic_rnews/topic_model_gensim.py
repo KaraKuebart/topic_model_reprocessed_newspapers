@@ -1,15 +1,16 @@
+import datetime
+
 import gensim
+import numpy as np
+import pandas as pd
 import spacy
 from gensim import corpora
 from gensim.models import TfidfModel
-import numpy as np
+from tqdm import tqdm
 
 import read_data
-import pandas as pd
-from tqdm import tqdm
-import datetime
-
 from topic_model_src import make_wordcloud
+
 
 def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
     num_docs = data.shape[0]
@@ -166,7 +167,9 @@ def reduce_corpus(corpus, id2word, tfidf):
     low_value = 0.03
     words = []
     words_missing_in_tfidf = []
-    for i in tqdm(range(0, len(corpus))):
+    length = len(corpus)
+    for i in tqdm(range(0, length)):
+        print(f"Reducing document nr. {i} of {length}")
         bow = corpus[i]
         # low_value_words = [] #reinitialize to be safe. You can skip this.
         tfidf_ids = [i for i, value in tfidf[bow]]
@@ -211,4 +214,3 @@ if __name__ == "__main__":
 
     # export results
     dataframe.to_csv(args.output_document_path + '_gensim_res.csv', sep=';', index=False)
-

@@ -1,12 +1,12 @@
 import datetime
+
 import pandas as pd
-from read_data import get_args
 from bertopic import BERTopic
 from cuml.cluster import HDBSCAN
 from cuml.manifold import UMAP
-
 from sentence_transformers import SentenceTransformer
 
+from read_data import get_args
 from topic_model_src import make_wordcloud
 
 if __name__ == "__main__":

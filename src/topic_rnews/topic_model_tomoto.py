@@ -1,12 +1,12 @@
+import datetime
+
 import numpy as np
 import pandas as pd
 import tomotopy as tp
+from tqdm import tqdm
 
 from read_data import get_args
 from topic_model_src import make_wordcloud
-
-import datetime
-from tqdm import tqdm
 
 
 def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='tomotopy_lda'):

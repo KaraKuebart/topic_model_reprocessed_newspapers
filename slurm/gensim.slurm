@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --ntasks-per-node=96
-#SBATCH --partition=vlm_long
-#SBATCH --mem=3800G
-#SBATCH --job-name=gensim
+#SBATCH --partition=lm_long
+#SBATCH --mem=1800G
+#SBATCH --job-name=gensim_lm
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
 #SBATCH --mail-user=nkuebart@uni-bonn.de
