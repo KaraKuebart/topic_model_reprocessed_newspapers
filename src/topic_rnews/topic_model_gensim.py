@@ -169,7 +169,7 @@ def reduce_corpus(corpus, id2word, tfidf):
     words_missing_in_tfidf = []
     length = len(corpus)
     for i in tqdm(range(0, length)):
-        print(f"Reducing document nr. {i} of {length}")
+        print(datetime.datetime.now(), f": Reducing document nr. {i} of {length}")
         bow = corpus[i]
         # low_value_words = [] #reinitialize to be safe. You can skip this.
         tfidf_ids = [i for i, value in tfidf[bow]]
