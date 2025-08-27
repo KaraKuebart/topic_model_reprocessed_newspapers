@@ -9,6 +9,7 @@ from gensim.models import TfidfModel
 from tqdm import tqdm
 
 import read_data
+import psutil
 from topic_model_src import make_wordcloud
 
 
@@ -169,7 +170,7 @@ def reduce_corpus(corpus, id2word, tfidf):
     words_missing_in_tfidf = []
     length = len(corpus)
     for i in tqdm(range(0, length)):
-        print(datetime.datetime.now(), f": Reducing document nr. {i} of {length}")
+        print(datetime.datetime.now(), f": Reducing document nr. {i} of {length}. RAM usage: {psutil.virtual_memory().used / 1e9, 2} GB")
         bow = corpus[i]
         # low_value_words = [] #reinitialize to be safe. You can skip this.
         tfidf_ids = [i for i, value in tfidf[bow]]
