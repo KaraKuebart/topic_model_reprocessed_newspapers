@@ -17,39 +17,42 @@ def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
     num_docs = data.shape[0]
     if num_topics is None:
         num_topics = round(np.power(num_docs, 5 / 12))
-    print(f'{datetime.datetime.now()}: creating data list')
+    print(f'{datetime.datetime.now()}: creating data list. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     text_data = data['text'].tolist()
-    print(f'{datetime.datetime.now()}: lemmatizing')
+    print(f'{datetime.datetime.now()}: lemmatizing. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     lemmatized_texts = lemmatization(text_data)
-    print(f'{datetime.datetime.now()}: using gensim.utils.simple_preprocess')
+    print(f'{datetime.datetime.now()}: using gensim.utils.simple_preprocess. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     data_words = gen_words(lemmatized_texts)
 
     # BIGRAMS AND TRIGRAMS
-    print(f'{datetime.datetime.now()}: making bigrams and trigrams')
+    print(f'{datetime.datetime.now()}: making bigrams and trigrams. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     data_bigrams_trigrams = make_bigrams_trigrams(data_words)
 
-    print(f'{datetime.datetime.now()}: deleting no longer needed data')
+    print(f'{datetime.datetime.now()}: deleting no longer needed data. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     del lemmatized_texts
     del text_data
 
     # TF-IDF REMOVAL
-    print(f'{datetime.datetime.now()}: creating dictionary')
+    print(f'{datetime.datetime.now()}: creating dictionary. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     id2word = corpora.Dictionary(data_bigrams_trigrams)
     texts = data_bigrams_trigrams
-    print(f'{datetime.datetime.now()}: id2word')
+    print(f'{datetime.datetime.now()}: id2word. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     corpus = [id2word.doc2bow(text) for text in texts]
-    print(f'{datetime.datetime.now()}: creating tfidf')
+    
+    # print(f'{datetime.datetime.now()}: skipping tf-idf, because it takes too long. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
+    
+    print(f'{datetime.datetime.now()}: creating tfidf. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     tfidf = TfidfModel(corpus, id2word=id2word)
 
-    print(f'{datetime.datetime.now()}: deleting no longer needed data')
+    print(f'{datetime.datetime.now()}: deleting no longer needed data. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     del data_words
 
     # reduce corpus
-    print(f'{datetime.datetime.now()}: reducing corpus by tfidf')
+    print(f'{datetime.datetime.now()}: reducing corpus by tfidf. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     corpus = reduce_corpus(corpus, id2word, tfidf)
 
     # lda_model
-    print(f'{datetime.datetime.now()}: running LDA model')
+    print(f'{datetime.datetime.now()}: running LDA model. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus[:-1],
                                                 id2word=id2word,
                                                 num_topics=num_topics,  # enter number of topics here
@@ -63,7 +66,7 @@ def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
     lda_model.show_topics(
         num_topics=5)  # number of topics to show must not be larger thant the number of topics generated
 
-    print(f'{datetime.datetime.now()}: exporting results')
+    print(f'{datetime.datetime.now()}: exporting results. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     data = export_results(corpus, data, lda_model, texts, num_topics)
 
     return data
@@ -170,7 +173,8 @@ def reduce_corpus(corpus, id2word, tfidf):
     words_missing_in_tfidf = []
     length = len(corpus)
     for i in tqdm(range(0, length)):
-        print(datetime.datetime.now(), f": Reducing document nr. {i} of {length}. RAM usage: {psutil.virtual_memory().used / 1e9, 2} GB")
+        if i % 1000 == 0:
+            print(datetime.datetime.now(), f": Reducing document nr. {i} of {length}. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB")
         bow = corpus[i]
         # low_value_words = [] #reinitialize to be safe. You can skip this.
         tfidf_ids = [i for i, value in tfidf[bow]]
