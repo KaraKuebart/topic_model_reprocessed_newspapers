@@ -2,6 +2,7 @@ import datetime
 
 import numpy as np
 import pandas as pd
+import psutil
 import tomotopy as tp
 from tqdm import tqdm
 
@@ -14,21 +15,21 @@ def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='t
     if num_topics is None:
         num_topics = round(np.power(num_docs, 5/12))
     mdl = tp.LDAModel(min_cf = int(np.power(num_docs, 1/3)), rm_top=int(np.log(num_docs)*20), k=num_topics, seed=42)
-    print(datetime.datetime.now(), ': importing data into tomoto_lda model')
+    print(datetime.datetime.now(), ': importing data into tomoto_lda model. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
 
 
 
     for i in tqdm(dataframe.index):
         text = str(dataframe.at[i, 'text']).split()
         mdl.add_doc(text)
-    print(datetime.datetime.now(), ': import done. Starting training')
+    print(datetime.datetime.now(), ': import done. Starting training. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     for j in range(0, 100, 10): # this is how bab2min recommends using his Topic Model. It will result 100 iterations, grouped in 10s.
         mdl.train(10)
-    print(datetime.datetime.now(), ': training done. Saving model')
+    print(datetime.datetime.now(), ': training done. Saving model. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     mdl.save('output/' + out_filename +'.bin')
     print(datetime.datetime.now(), ': removed top words', mdl.removed_top_words, '\n', '')
 
-    print(datetime.datetime.now(), ': starting export to dataframe')
+    print(datetime.datetime.now(), ': starting export to dataframe. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     for k in tqdm(dataframe.index):
         try:
             doc_inst= mdl.docs[k]
@@ -66,7 +67,7 @@ if __name__ == "__main__":
     news_df.to_csv(args.output_document_path + '_tomoto_res.csv', sep=';', index=False)
     vocabulary = mdl.vocabs
     words_importance_dict = {}
-    print(f'{datetime.datetime.now()}: creating word clouds for each topic')
+    print(f'{datetime.datetime.now()}: creating word clouds for each topic. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     for topic_id in tqdm(range(num_topics)):
         topic_words = mdl.get_topic_word_dist(topic_id, normalize=True)
         for w in range(len(topic_words)):

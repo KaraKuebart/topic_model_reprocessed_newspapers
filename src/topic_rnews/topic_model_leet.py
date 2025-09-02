@@ -1,6 +1,7 @@
 import datetime
 
 import pandas as pd
+import psutil
 from leet_topic import leet_topic
 from matplotlib import pyplot as plt
 from tqdm import tqdm
@@ -47,15 +48,15 @@ def second_leet_topic(df: pd.DataFrame, topic_number) -> pd.DataFrame:
 
 
 def leet_post_processing(df: pd.DataFrame, arguments) -> None:
-    print(datetime.datetime.now(), ': starting post processing. Saving Dataframe')
+    print(datetime.datetime.now(), ': starting post processing. Saving Dataframe. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     df.to_csv(arguments.output_document_path + '_leet_res.csv', sep=';', index=False)
-    print(f'{datetime.datetime.now()}: creating scatter plots')
+    print(f'{datetime.datetime.now()}: creating scatter plots. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     df.sort_values(['path', 'region'], inplace=True)
     df.reset_index(drop=True, inplace=True)
     topic_scatterplot(df, 'leet_topic_scatter')
     topic_dict = count_topic_frequency(df['leet_labels'])
     most_frequent_topics = dict(list(topic_dict.items())[1:101])
-    print(f'{datetime.datetime.now()}: creating word clouds for each topic')
+    print(f'{datetime.datetime.now()}: creating word clouds for each topic. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     for key in tqdm(most_frequent_topics.keys()):
         try:
             temp_df = df.loc[df['leet_labels'] == key]
@@ -82,7 +83,7 @@ if __name__ == "__main__":
 
     dataframe = pd.read_csv(args.load_dataframe, sep=";", on_bad_lines='warn', encoding_errors="replace")
     dataframe = dataframe.astype(str)
-    print(f'{datetime.datetime.now()}: beginning leet topic model')
+    print(f'{datetime.datetime.now()}: beginning leet topic model. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     dataframe = run_leet_topic(dataframe, args.leet_distance)
-    print(f'{datetime.datetime.now()}: finished model calculation.')
+    print(f'{datetime.datetime.now()}: finished model calculation. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     leet_post_processing(dataframe, args)

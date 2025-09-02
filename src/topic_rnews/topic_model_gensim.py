@@ -3,13 +3,13 @@ import datetime
 import gensim
 import numpy as np
 import pandas as pd
+import psutil
 import spacy
 from gensim import corpora
 from gensim.models import TfidfModel
 from tqdm import tqdm
 
 import read_data
-import psutil
 from topic_model_src import make_wordcloud
 
 

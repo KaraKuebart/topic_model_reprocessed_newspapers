@@ -1,5 +1,6 @@
 import datetime
 
+import psutil
 from parallel_pandas import ParallelPandas
 
 import preprocessing
@@ -11,10 +12,10 @@ if __name__ == "__main__":
     ParallelPandas.initialize(n_cpu=args.no_of_cpu_cores, split_factor=4)
 
     # import data from numpy arrays
-    print(datetime.datetime.now(), ': beginning import')
+    print(datetime.datetime.now(), f': beginning import. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
 
     news_df = read_data.create_dataframe(args)
-    print(datetime.datetime.now(), f': dataframe created (size:{len(news_df.index)}), joining headings and paragraphs:')
+    print(datetime.datetime.now(), f': dataframe created (size:{len(news_df.index)}), joining headings and paragraphs. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
 
     # add headings and corresponding paragraphs together (if confidence is high).
     # news_df = preprocessing.join_headings_w_paragraphs(news_df) # DEACTIVATED BECAUSE IT TAKES TOO LONG
@@ -55,10 +56,10 @@ if __name__ == "__main__":
     # news_df = sentiment_analysis_src.by_words(news_df, words_of_interest, range_tuple)
     # news_df.to_csv(args.output_document_path + '_sent_a.csv', sep=';', index=False)
     #
-    # print(datetime.datetime.now(), ': starting sentiment analysis')
+    # print(datetime.datetime.now(), f': starting sentiment analysis. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     # news_df.sort_values(['path', 'region'], inplace=True)
     # news_df.reset_index(drop=True, inplace=True)
-    # print(datetime.datetime.now(), ': reset index')
+    # print(datetime.datetime.now(), f': reset index. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     #
     # # split into sections
     # news_df['first_part'] = news_df['path'].str.split(r'[.-]').str[0]
