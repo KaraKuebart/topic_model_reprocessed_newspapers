@@ -1,4 +1,5 @@
 import datetime
+import sys
 
 import gensim
 import numpy as np
@@ -86,6 +87,7 @@ def lemmatization(texts_in, allowed_postags=None):
                 new_text.append(token.lemma_)
         final = " ".join(new_text)
         texts_out.append(final)
+    sys.stdout.flush()
     return texts_out
 
 
@@ -94,6 +96,7 @@ def gen_words(texts_in):
     for text in tqdm(texts_in):
         new = gensim.utils.simple_preprocess(text, deacc=True)
         final.append(new)
+    sys.stdout.flush()
     return final
 
 
@@ -127,7 +130,7 @@ def export_results(corpus, data, lda_model, texts, num_topics):
         words_dict, words_list = export_topic(lda_model, topic_id)
         topics_df.loc[topic_id, 'words_dict'] = str(words_dict)
         topics_df.loc[topic_id, 'typical_words'] = ', '.join(words_list)
-
+    sys.stdout.flush()
     topics_df.to_csv(args.output_document_path + '_gensim_topics.csv', sep=';', index=False)
 
 
@@ -151,6 +154,7 @@ def export_results(corpus, data, lda_model, texts, num_topics):
             third_keywords[i], third_topic[i], third_percentage[i] = "None", "None", "None"
 
         text_snippets[i] = texts[i][:8]
+    sys.stdout.flush()
 
     data['Main Topic'] = main_topic
     data['Main Topic Percentage'] = main_percentage
@@ -189,6 +193,7 @@ def reduce_corpus(corpus, id2word, tfidf):
 
         new_bow = [b for b in bow if b[0] not in drops]
         corpus[i] = new_bow
+    sys.stdout.flush()
     print(f'{datetime.datetime.now()}: finished reduction')
     return corpus
 

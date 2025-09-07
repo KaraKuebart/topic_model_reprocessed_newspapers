@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 from pathlib import Path
 from typing import List
 
@@ -13,6 +14,7 @@ def merge_data(data_path: Path, paths: List[str], import_range: list) -> list:
     for path in tqdm(paths[import_range[0]:import_range[1]]):
         page_csv = np.load(data_path / f"{path}.npz")['array'].tolist()
         page_list.extend(page_csv)
+    sys.stdout.flush()
     return page_list
 
 

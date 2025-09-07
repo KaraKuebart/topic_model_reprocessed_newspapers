@@ -1,5 +1,6 @@
 import datetime
 import string
+import sys
 
 import pandas as pd
 from tqdm import tqdm
@@ -30,6 +31,7 @@ def join_headings_w_paragraphs(local_df: pd.DataFrame) -> pd.DataFrame:
                 local_df.at[i, 'confidence'] = (float(local_df.at[i, 'confidence']) + float(local_df.at[i + 1, 'confidence'])) / 2.0
                 local_df.at[i, 'text'] = str(local_df.at[i, 'text']) + ' ' + str(local_df.at[i + 1, 'text'])
                 local_df.drop(i + 1, inplace=True)
+    sys.stdout.flush()
     print(datetime.datetime.now(), 'headings and paragraphs joined')
     return local_df
 

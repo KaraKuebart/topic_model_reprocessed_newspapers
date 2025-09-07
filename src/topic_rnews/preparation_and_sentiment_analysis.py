@@ -134,6 +134,7 @@ if __name__ == "__main__":
     #         plt.imshow(cloud, interpolation='bilinear')
     #         plt.savefig(f'output/senta_cloud_{word}.png')
     #         plt.close()
+    # sys.stdout.flush()
     #
     # # create plot on overall senta res
     # sentiment_values = []

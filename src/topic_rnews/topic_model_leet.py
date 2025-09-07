@@ -1,5 +1,5 @@
 import datetime
-
+import sys
 import pandas as pd
 import psutil
 from leet_topic import leet_topic
@@ -73,6 +73,7 @@ def leet_post_processing(df: pd.DataFrame, arguments) -> None:
             make_wordcloud('leet', key, word_frequencies)
         except Exception as e:
             print(" an error occurred: ", e)
+    sys.stdout.flush()
     most_important_topics_list = list(most_frequent_topics.keys())
     reduced_df = df.loc[df['leet_labels'].isin(most_important_topics_list)]
     topic_scatterplot(reduced_df, 'leet_topic_scatter_reduced')

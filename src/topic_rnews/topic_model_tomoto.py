@@ -1,5 +1,5 @@
 import datetime
-
+import sys
 import numpy as np
 import pandas as pd
 import psutil
@@ -22,9 +22,11 @@ def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='t
     for i in tqdm(dataframe.index):
         text = str(dataframe.at[i, 'text']).split()
         mdl.add_doc(text)
+    sys.stdout.flush()
     print(datetime.datetime.now(), ': import done. Starting training. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     for j in range(0, 100, 10): # this is how bab2min recommends using his Topic Model. It will result 100 iterations, grouped in 10s.
         mdl.train(10)
+    sys.stdout.flush()
     print(datetime.datetime.now(), ': training done. Saving model. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     mdl.save('output/' + out_filename +'.bin')
     print(datetime.datetime.now(), ': removed top words', mdl.removed_top_words, '\n', '')
@@ -45,6 +47,7 @@ def tomoto_lda(dataframe: pd.DataFrame, num_topics:int=None, out_filename:str='t
             print(datetime.datetime.now(), f': Index error on document {k}. Number of Documents in the Dataframe and Number of Documents in the Model do not match')
         except Exception as e:
             print(datetime.datetime.now(), f': Exception raised on document {k}: {e}')
+    sys.stdout.flush()
     return dataframe, mdl, num_topics
 
 
