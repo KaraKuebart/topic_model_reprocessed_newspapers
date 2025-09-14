@@ -32,8 +32,8 @@ def topic_scatterplot(df: pd.DataFrame, filename: str) -> None:
     cbar = plt.colorbar(scatter)
     cbar.set_label('Topic Number', fontsize=30)
     # Labels and Title
-    plt.xlabel('X Coordinate', fontsize=30)
-    plt.ylabel('Y Coordinate', fontsize=30)
+    plt.xlabel('X Dimension', fontsize=30)
+    plt.ylabel('Y Dimension', fontsize=30)
     plt.title('Topic distribution Visualization', fontsize=30)
     plt.savefig(f'output/{filename}.png')
     plt.close()
@@ -48,7 +48,7 @@ def second_leet_topic(df: pd.DataFrame, topic_number) -> pd.DataFrame:
 
 
 def leet_post_processing(df: pd.DataFrame, arguments) -> None:
-    print(datetime.datetime.now(), ': starting post processing. Saving Dataframe. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
+    print(datetime.datetime.now(), f': starting post processing. Saving Dataframe. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     df.to_csv(arguments.output_document_path + '_leet_res.csv', sep=';', index=False)
     print(f'{datetime.datetime.now()}: creating scatter plots. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     df.sort_values(['path', 'region'], inplace=True)

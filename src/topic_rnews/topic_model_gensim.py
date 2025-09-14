@@ -11,7 +11,7 @@ from gensim.models import TfidfModel
 from tqdm import tqdm
 
 import read_data
-from topic_model_src import make_wordcloud
+# from topic_model_src import make_wordcloud
 
 
 def gensim_lda(data:pd.DataFrame, num_topics:int=None) -> pd.DataFrame:
@@ -202,7 +202,8 @@ def export_topic(ldamodel, topic):
     words_dict = {}
     for word in wp:
         words_dict[word[0]] = word[1]
-    make_wordcloud('gensim', topic, words_dict)
+    # not making wordclouds, because it takes too long
+    # make_wordcloud('gensim', topic, words_dict)
     words_list = words_dict.keys()
     return words_dict, words_list
 
