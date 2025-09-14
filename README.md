@@ -18,3 +18,6 @@ To set up the environements used for topic modeling, please note:
 - For BERTopic, use for_bert
 - For gensim and Leet-Topic, use for_gensim (since Leet-Topic depends on gensim)
 - For tomotopy, use any environement. Its sole dependency is numpy.
+
+
+When using slurmfiles provided here, please remember to change the email contact therein to your own.
