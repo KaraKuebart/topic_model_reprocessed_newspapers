@@ -76,4 +76,4 @@ if __name__ == "__main__":
         for w in range(len(topic_words)):
             words_importance_dict[vocabulary[w]] = topic_words[w]
 
-        make_wordcloud('tomoto', topic_id, words_importance_dict)
+        make_wordcloud('tomoto', topic_id, words_importance_dict, args.output_document_path)

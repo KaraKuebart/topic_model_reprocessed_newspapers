@@ -59,4 +59,4 @@ if __name__ == "__main__":
         topic_dict = {}
         for word in topic:
             topic_dict[word[0]] = word[1]
-        make_wordcloud('BERTopic', topic_id, topic_dict)
+        make_wordcloud('BERTopic', topic_id, topic_dict, args.output_document_path)
