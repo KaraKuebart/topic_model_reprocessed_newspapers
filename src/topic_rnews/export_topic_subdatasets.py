@@ -5,11 +5,11 @@ from tqdm import tqdm
 if __name__ == "__main__":
     # ENTER HERE: NAME OF THE FILE AND THE THRESHOLD FROM WHICH YOU CONSINDER A DOCUMENT TO BE SUFFICIENTLY RELEVANT TO THE TOPIC TO BE INCLUDED IN YOUR SUB-DATASET
     # if you choose a threshold below 0.33, you may activate topic_df_2 and add it to the concatenation. Same goes for thresholds below 0.25 and topic_df_3.
-    INPUT_FILE = 'tomoto_tomoto_res.csv'
+    INPUT_FILE = 'all_tomoto_res.csv'
     MIN_RELEVANCE = 0.35
 
     out_file_base = INPUT_FILE.split('.', maxsplit=1)[0]
-    dataset = pd.read_csv(f'output/{INPUT_FILE}', sep=',') # some of our result CSV files may still have a comma as a separator. If this is the case, please adapt here. It will not occur using the final version of our code.
+    dataset = pd.read_csv(f'output/{INPUT_FILE}', sep=';')
     topics = list(set(dataset['0_topic_nr']))
     topics_average_document_lengths = pd.DataFrame(columns=['topic_nr', 'nr_of_documents', 'average_document_length'])
     topics_average_document_lengths.set_index('topic_nr', inplace=True)
