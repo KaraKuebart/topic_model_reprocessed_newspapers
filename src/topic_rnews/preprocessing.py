@@ -58,6 +58,11 @@ def main(dataset:pd.DataFrame) -> pd.DataFrame:
     print(datetime.datetime.now(), ': applying stopwords')
 
     dataset = dataset.p_replace(stopwords, regex=True)
+    dataset['text'] = dataset['text'].str.strip()
+    dataset['text'] = dataset['text'].str.replace('         ', ' ')
+    dataset['text'] = dataset['text'].str.replace('     ', ' ')
+    dataset['text'] = dataset['text'].str.replace('   ', ' ')
+    dataset['text'] = dataset['text'].str.replace('  ', ' ')
 
     print(datetime.datetime.now(), ': removing punctuation')
 

@@ -5,7 +5,7 @@ from tqdm import tqdm
 if __name__ == "__main__":
     # ENTER HERE: NAME OF THE FILE AND THE THRESHOLD FROM WHICH YOU CONSINDER A DOCUMENT TO BE SUFFICIENTLY RELEVANT TO THE TOPIC TO BE INCLUDED IN YOUR SUB-DATASET
     # if you choose a threshold below 0.33, you may activate topic_df_2 and add it to the concatenation. Same goes for thresholds below 0.25 and topic_df_3.
-    INPUT_FILE = 'all_tomoto_res.csv'
+    INPUT_FILE = 'output/all_tomoto_res.csv'
     MIN_RELEVANCE = 0.35
 
     out_file_base = INPUT_FILE.split('.', maxsplit=1)[0]
