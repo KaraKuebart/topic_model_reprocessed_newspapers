@@ -34,10 +34,10 @@ if __name__ == "__main__":
     raw_df = pd.read_csv('input/all_raw.csv', sep=';')
     raw_df['ID'] = raw_df['path'].astype(str) + '_' + raw_df['region'].astype(str)
     raw_df.set_index('ID', inplace=True)
-    csvfiles = glob.glob('output/*.csv')
-    for csvfile in tqdm(csvfiles):
-        print(datetime.datetime.now(), f': reintegrating text into: {csvfile}')
-        df = pd.read_csv(csvfile, sep=';')
+    csv_files = glob.glob('output/*.csv')
+    for csv_file in tqdm(csv_files):
+        print(datetime.datetime.now(), f': reintegrating text into: {csv_file}')
+        df = pd.read_csv(csv_file, sep=';')
         df = clean_df(df)
         df['text'] = df.p_apply(insert_row_text, axis=1)
-        df.to_csv(csvfile, sep=';', index=False)
+        df.to_csv(csv_file, sep=';', index=False)

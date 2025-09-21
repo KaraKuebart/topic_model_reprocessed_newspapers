@@ -202,7 +202,7 @@ def export_topic(ldamodel, topic):
     words_dict = {}
     for word in wp:
         words_dict[word[0]] = word[1]
-    # not making wordclouds, because it takes too long
+    # not making wordclouds, because it takes too long ## WORDCLOUDS!!
     # make_wordcloud('gensim', topic, words_dict, args.output_document_path)
     words_list = words_dict.keys()
     return words_dict, words_list

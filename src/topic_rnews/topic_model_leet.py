@@ -70,7 +70,7 @@ def leet_post_processing(df: pd.DataFrame, arguments) -> None:
             for item in word_set:
                 word_frequencies[item] = wordlist.count(item)
 
-            make_wordcloud('leet', key, word_frequencies, arguments.output_document_path)
+            # make_wordcloud('leet', key, word_frequencies, arguments.output_document_path)
         except Exception as e:
             print(" an error occurred: ", e)
     sys.stdout.flush()

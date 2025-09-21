@@ -59,9 +59,9 @@ if __name__ == "__main__":
 
     print(datetime.datetime.now(), f': dataframes saved. Generating wordclouds. RAM usage: {round(psutil.virtual_memory().used / 1e9)} GB')
     # print(datetime.datetime.now(), topic_model.topic_representations_)
-    for topic_id in range(-1, len(topic_model.topic_representations_) - 1):
-        topic = topic_model.topic_representations_[topic_id]
-        topic_dict = {}
-        for word in topic:
-            topic_dict[word[0]] = word[1]
-        make_wordcloud('BERTopic', topic_id, topic_dict, args.output_document_path)
+    # for topic_id in range(-1, len(topic_model.topic_representations_) - 1):
+    #     topic = topic_model.topic_representations_[topic_id]
+    #     topic_dict = {}
+    #     for word in topic:
+    #         topic_dict[word[0]] = word[1]
+    #     make_wordcloud('BERTopic', topic_id, topic_dict, args.output_document_path)
