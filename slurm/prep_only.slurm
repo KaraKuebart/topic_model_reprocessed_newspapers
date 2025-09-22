@@ -6,7 +6,7 @@
 #SBATCH --job-name=prep_test
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
-#SBATCH --mail-user=nkuebart@uni-bonn.de
+#SBATCH --mail-user=[enter your own email here]
 #SBATCH --mail-type=ALL
 #SBATCH --time 2-12:00:00
 

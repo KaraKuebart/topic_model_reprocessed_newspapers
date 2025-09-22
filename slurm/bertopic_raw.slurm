@@ -7,7 +7,7 @@
 #SBATCH --job-name=bertopic_raw
 #SBATCH --error=logs/job.%J.err
 #SBATCH --output=logs/job.%J.out
-#SBATCH --mail-user=nkuebart@uni-bonn.de
+#SBATCH --mail-user=[enter your own email here]
 #SBATCH --mail-type=ALL
 
 ln -sf logs/job.$SLURM_JOB_ID.err latest.err
